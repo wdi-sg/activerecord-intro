@@ -133,6 +133,8 @@ It'll be nice going forward with your application that we package the schema up 
 
 **NOTE:** If you already ran your Tunr schema in the Domain Modeling / SQL class, you do not need to complete this portion.  
 
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.0.zip)
+
 ### Setup Ruby & Add Functionality - WDI (I Do - 20 / 60)
 Great, now we have a table loaded into our database we're now ready to get started on the ruby side.
 Let's first create all the directories/files we're going to need in the terminal:
@@ -216,7 +218,9 @@ puts "end of application"
 
 ### Functionality - Tunr (You Do - 30 / 110)
 
-[Part 2.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-22---define-artists--setup-your-apprb-to-connect-to-the-database)
+[Part 1.1 & 1.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-wdi-exercises/tunr-active-record#part-11---create-the-artist-model-using-active-record)
+
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.1.zip)
 
 ### Break (10 / 80)
 
@@ -311,7 +315,7 @@ george.destroy
 
 ### Methods - Tunr (You Do (In Pry!) - 15 / 155)
 
-[Part 2.3 - Use Your Artist Model](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-23---use-your-artist-model)
+[Part 2.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
 
 ## Associations
 
@@ -393,9 +397,11 @@ We also need to include the `models/instructor.rb` file into our `app.rb` so in 
 require_relative "models/instructor"
 ```
 
-### Updating Class Defintions - Tunr (You Do - 5 / 200)
+### Updating Class Definitions - Tunr (You Do - 5 / 200)
 
-[Part 2.4 - Create Your Song Model / Setup Associations](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-24---create-your-song-model--setup-associations)
+[Part 1.4 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-14---create-your-song-model--setup-associations)
+
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
 ### Break (10 / 210)
 
@@ -453,7 +459,7 @@ jesse.students.create(first_name: "baskin", last_name: "robbins", age: 34, job: 
 
 ### Association Helper Methods - Tunr (You Do - 15 / 255)
 
-[Part 2.5 - Use Your Model Assocations](https://github.com/ga-dc/tunr_sinatra/blob/2_active_record_starter/readme.md#part-25---use-your-model-associations)
+[Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
 
 ### Seeding a Database - WDI (15 / 270)
 Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
