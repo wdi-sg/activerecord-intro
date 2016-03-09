@@ -19,7 +19,7 @@
 - Seed a database using AR
 
 
-## Opening Framing (5 / 5)
+## Framing (5 / 5)
 Think about what we have learned so far in this unit. We now have a way to persist data in a database. We've also learned about how OOP allows us to programmatically represent real things as objects in ruby. Which is AWESOME! But really databases just seems like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD. It'd be really nice if we had some kind of way to interface between the database and our servers/applications in order to streamline this process. Enter ORM's.
 
 ### Information Dive (5 / 10)
@@ -70,7 +70,7 @@ Alright! Let's get started with some code!
 
 ### Setup SQL - WDI (I Do - 5 / 40)
 > Throughout the day, I'll be doing some code simulating a "wdi application" then you will code along with our Tunr
-applications.
+applications. Please **do not** code along the wdi application.
 
 Let's go over our domain model for both applications.
 
@@ -133,9 +133,9 @@ It'll be nice going forward with your application that we package the schema up 
 
 **NOTE:** If you already ran your Tunr schema in the Domain Modeling / SQL class, you do not need to complete this portion.  
 
-[Part 1 - Database/Schema](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-1---database--schema)
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.0.zip)
 
-### Setup Ruby - WDI (I Do - 10 / 60)
+### Setup Ruby & Add Functionality - WDI (I Do - 20 / 60)
 Great, now we have a table loaded into our database we're now ready to get started on the ruby side.
 Let's first create all the directories/files we're going to need in the terminal:
 
@@ -166,18 +166,6 @@ gem "pry"  # this gem allows access to REPL
 
 Then I'm going to run `$ bundle install` in the terminal.
 
-### Setup Ruby - Tunr (You Do - 10 / 70)
-If you did not complete the initial SQL setup for Tunr above:
- - In your cloned copy, run `git fetch https://github.com/ga-dc/tunr_sinatra` to get the most recent branches
- - Please `git checkout` to the `2_active_record_starter` branch
- - Then you will need to create the db with `createdb tunr_db`
- - Then load the schema file with `psql -d tunr_db < db/schema.sql`
- - Next run the seed file with `psql -d tunr_db < db/seed.sql`
- - Follow the steps from `Part 2.1` in the link below
-
-[Part 2.1 - Create the Artist Model Using Active Record](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-21---create-the-artist-model-using-active-record)
-
-### Break (10 / 80)
 
 ### Functionality - WDI (I Do - 20 / 100)  
 
@@ -210,7 +198,7 @@ Finally, let's build out the functionality of the `app.rb` file(which in this ca
 
 ```ruby
 require "bundler/setup" # require all the gems we'll be using for this app from the Gemfile. Obviates the need for `bundle exec`
-require "pg" # postrgres db library
+require "pg" # postgres db library
 require "active_record" # the ORM
 require "pry" # for debugging
 
@@ -222,13 +210,19 @@ require_relative "models/student" # require the Student class definition that we
 # ActiveRecord::Base class.
 binding.pry
 
+puts "end of application"
+
 ```
 
 > note the difference between `require` and `require_relative`. With `require` we are getting gems and `require_relative` we are getting files relative to the location of the file we wrote `require_relative` in
 
-### Functionality - Tunr (You Do - 10 / 110)
+### Functionality - Tunr (You Do - 30 / 110)
 
-[Part 2.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-22---define-artists--setup-your-apprb-to-connect-to-the-database)
+[Part 1.1 & 1.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-wdi-exercises/tunr-active-record#part-11---create-the-artist-model-using-active-record)
+
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.1.zip)
+
+### Break (10 / 80)
 
 
 ### Methods - WDI (I Do - 30 / 140)
@@ -319,12 +313,9 @@ george.destroy
 
 > This is exciting stuff by the way, imagine, while we do these things, that our students model is instead a post on facebook, or a comment on facebook. So the next time you comment on someone's facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
-
-### LUNCHTIME
-
 ### Methods - Tunr (You Do (In Pry!) - 15 / 155)
 
-[Part 2.3 - Use Your Artist Model](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-23---use-your-artist-model)
+[Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
 
 ## Associations
 
@@ -406,9 +397,11 @@ We also need to include the `models/instructor.rb` file into our `app.rb` so in 
 require_relative "models/instructor"
 ```
 
-### Updating Class Defintions - Tunr (You Do - 5 / 200)
+### Updating Class Definitions - Tunr (You Do - 5 / 200)
 
-[Part 2.4 - Create Your Song Model / Setup Associations](https://github.com/ga-dc/tunr_sinatra/tree/2_active_record_starter#part-24---create-your-song-model--setup-associations)
+[Part 1.4 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-14---create-your-song-model--setup-associations)
+
+[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
 ### Break (10 / 210)
 
@@ -466,7 +459,7 @@ jesse.students.create(first_name: "baskin", last_name: "robbins", age: 34, job: 
 
 ### Association Helper Methods - Tunr (You Do - 15 / 255)
 
-[Part 2.5 - Use Your Model Assocations](https://github.com/ga-dc/tunr_sinatra/blob/2_active_record_starter/readme.md#part-25---use-your-model-associations)
+[Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
 
 ### Seeding a Database - WDI (15 / 270)
 Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
@@ -507,8 +500,6 @@ Who misses writing SQL queries by hand? Exactly. Active Record is extremely powe
 
 Review Learning Objectives
 
-### Homework
-[Landlord (Active Record)](https://github.com/ga-dc/landlord#active-record)
 
 ### Resources
 - [Active Record Basics](http://guides.rubyonrails.org/active_record_basics.html)
