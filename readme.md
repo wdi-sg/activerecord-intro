@@ -19,7 +19,7 @@
 - Seed a database using AR
 
 
-## Opening Framing (5 / 5)
+## Framing (5 / 5)
 Think about what we have learned so far in this unit. We now have a way to persist data in a database. We've also learned about how OOP allows us to programmatically represent real things as objects in ruby. Which is AWESOME! But really databases just seems like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD. It'd be really nice if we had some kind of way to interface between the database and our servers/applications in order to streamline this process. Enter ORM's.
 
 ### Information Dive (5 / 10)
