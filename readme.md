@@ -267,7 +267,16 @@ pry(main)> Artist.all
 
 Create a new file in the `db` directory called `seed.sql`.
 
+In the `db/seed.sql` file place the contents of this [website](https://raw.githubusercontent.com/ga-wdi-exercises/tunr-active-record/c8e99172a6c09930ed18392aae5a98e571cbc507/db/seeds.sql)
 
+You did this right if:
+
+You run your program and enter this and get the same output:
+
+```bash
+pry(main)> Artist.all.length
+=> 14
+```
 
 ### Methods - WDI (I Do -  30/175)
 
