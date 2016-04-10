@@ -447,7 +447,7 @@ class Student < ActiveRecord::Base
   belongs_to :instructor
 end
 ```
-> the plurality of `students` and singularity of `instructor`.  
+> note the plurality of `students` and singularity of `instructor`.  
 
 We also need to include the `models/instructor.rb` file into our `app.rb` so in `app.rb` we need to add
 
