@@ -553,7 +553,7 @@ adam.students.create(first_name: "Dee", last_name: "Reynolds", age: 32, job: "Ba
 adam.students.create(first_name: "Charlie", last_name: "Kelly", age: 31, job: "Owner of Paddy's")
 ```
 
-Once we get rid of this duplicate code in `app.rb` we can just run this seed file once and know our data is good.
+Once we get rid of this duplicate CRUD code in `app.rb` we can just run this seed file once and know our data is good.
 
 Now when we run our application with `ruby app.rb`, we enter into Pry with all our data loaded.
 
