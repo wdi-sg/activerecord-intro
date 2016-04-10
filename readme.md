@@ -461,8 +461,6 @@ require_relative "models/instructor"
 
 [solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
-### Break (10 / 210)
-
 ### Association Helper Methods - WDI (I Do - 30 / 270)
 
 So we added some code, but we can't yet see the functionality it gives us.
