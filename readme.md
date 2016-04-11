@@ -1,6 +1,6 @@
 # Active Record
 
-## LO's
+## Learning Objectives
 - Define ORM and why we use it over a database language.
 - Explain what Active record is and what problems it solves.
 - Explain convention over configuration and how it relates to Active Record
@@ -68,7 +68,7 @@ In a nutshell, if you don't follow the conventions, you're going to have a bad t
 
 Alright! Let's get started with some code!
 
-### Setup SQL - WDI (I Do - 5 / 40)
+### Setup SQL - WDI (I Do - 10 / 45)
 > Throughout the day, I'll be doing some code simulating a "wdi application" then you will code along with our Tunr
 applications. Please **do not** code along the wdi application.
 
@@ -94,7 +94,7 @@ $ createdb wdi_db
 
 > All we did here was create a database in PSQL. If you ever want to drop a database the command is `$ dropdb <database_name>` (VERY DANGEROUS)
 
-Next, I want to update the schema file and then load a table for our model into the database:
+Next, I want to update the schema file and then load tables for our models into the database:
 
 in `db/wdi_schema.sql` file:
 
@@ -125,17 +125,41 @@ now lets run our `wdi_schema.sql` file in the terminal:
 $ psql -d wdi_db < db/wdi_schema.sql
 ```
 
+(ST-WG) Is this potentially really dangerous?
+
 **Question (ST-WG):** Why did we do this? Why not just go into psql and create the tables in postgres?
 
 It'll be nice going forward with your application that we package the schema up so that its modular. We can have others quickly pick up our code and have our exact database setup.
 
-### Setup SQL - Tunr (You Do - 10 / 50)
+### Setup SQL - Tunr (You Do - 10 / 55)
 
-**NOTE:** If you already ran your Tunr schema in the Domain Modeling / SQL class, you do not need to complete this portion.  
+Do everything that happened in the wdi app to set up your own app Tunr. An app of artists and songs.
+
+You'll know you did this right if:
+
+You enter psql and run these commands:
+
+```
+$ psql
+psql (9.4.4, server 9.3.5)
+Type "help" for help.
+
+=# \c <database_name>
+=# SELECT * FROM artists;
+```
+
+The output should be:
+```
+id | first_name | last_name | age | job | instructor_id
+----+------------+-----------+-----+-----+---------------
+(0 rows)
+```
+
+## Break (10/65)
 
 [solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.0.zip)
 
-### Setup Ruby & Add Functionality - WDI (I Do - 20 / 60)
+### Setup Ruby & Add Functionality - WDI (I Do - 20 / 85)
 Great, now we have a table loaded into our database we're now ready to get started on the ruby side.
 Let's first create all the directories/files we're going to need in the terminal:
 
@@ -154,6 +178,11 @@ $ touch models/student.rb
 
 > by convention we always name our model file names singular
 
+### The `Gemfile` - an aside
+A Gemfile is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration of apps. TLDR: Take someone's code, use it in your program.
+
+We stand on the shoulders of giants. Oh there's code for that? yoink.
+
 In the `Gemfile`:
 
 ```ruby
@@ -164,10 +193,12 @@ gem "activerecord"  # this gem provides a connection between your ruby classes t
 gem "pry"  # this gem allows access to REPL
 ```
 
+> Without these gems, we would be unable to talk to our SQL database.
+
 Then I'm going to run `$ bundle install` in the terminal.
 
 
-### Functionality - WDI (I Do - 20 / 100)  
+### Functionality - WDI (I Do - 20 / 105)  
 
 In the `models/student.rb` file, let's define our student model:
 
@@ -216,16 +247,40 @@ puts "end of application"
 
 > note the difference between `require` and `require_relative`. With `require` we are getting gems and `require_relative` we are getting files relative to the location of the file we wrote `require_relative` in
 
-### Functionality - Tunr (You Do - 30 / 110)
+### Functionality - Tunr (You Do - 20 / 125) + Break(10/135)
 
 [Part 1.1 & 1.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-wdi-exercises/tunr-active-record#part-11---create-the-artist-model-using-active-record)
 
+You'll know you did this right if:
+
+Run your program and then when you enter `pry` run this line of code:
+
+you should get something like this(it won't be the same letters and numbers)
+```bash
+pry(main)> Artist.all
+=> #<Artist::ActiveRecord_Relation:0x3fc4911af384>
+```
+
 [solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.1.zip)
 
-### Break (10 / 80)
+### Seed the database - Tunr (You Do - 10 / 145)
 
+Create a new file in the `db` directory called `seed.sql`.
 
-### Methods - WDI (I Do - 30 / 140)
+In the `db/seed.sql` file place the contents of this [website](https://raw.githubusercontent.com/ga-wdi-exercises/tunr-active-record/c8e99172a6c09930ed18392aae5a98e571cbc507/db/seeds.sql)
+
+Then, just like the schema file, load the `db/seed.sql` into the tunr database you created.
+
+You did this right if:
+
+You run your program and enter this and get the same output:
+
+```bash
+pry(main)> Artist.all.length
+=> 14
+```
+
+### Methods - WDI (I Do -  30/175)
 
 Great! We've got everything done that we need to get setup with single model CRUD in our application. Let's run it in the terminal:
 
@@ -235,9 +290,9 @@ $ ruby app.rb
 
 When we run this app, we can see that it drops us into pry. Let's write some code in pry to update our database... **IN REALTIME!!!**
 
-**Board:** I want to come up with an ongoing list of class and instance methods that we can add to as we use them
+**Board:** I want to come up with an ongoing list of class methods vs instance methods that we can add to as we use them
 
-Let's create an instance of the Student object on the ruby side, but that does not save originally:
+Let's create an instance of the Student object on the ruby side:
 
 > **Note** the syntax for creating a new instance.
 
@@ -256,6 +311,8 @@ If we want to initialize an instance of an object AND save it to the database we
 ```ruby
 abe = Student.create(first_name: "Abe", last_name: "Lincoln", age: 150, job: "Prez")
 ```
+
+(ST-WG) Why is there a distinction between when it's saved in one command versus two.
 
 One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model are now `attr_accessor`'s as well. So we can do things like:
 
@@ -303,6 +360,8 @@ george = Student.find_by(last_name: "Washington")
 george.update(job: "actor", first_name: "Denzel")
 ```
 
+> If we want to update the attribute and not save we would have to use something from this [post](http://www.davidverhasselt.com/set-attributes-in-activerecord/)
+
 Finally we can also just destroy/delete rows in our database with the `.destroy` method:
 
 ```ruby
@@ -313,13 +372,13 @@ george.destroy
 
 > This is exciting stuff by the way, imagine, while we do these things, that our students model is instead a post on facebook, or a comment on facebook. So the next time you comment on someone's facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
-### Methods - Tunr (You Do (In Pry!) - 15 / 155)
+### Methods - Tunr (You Do (In Pry!) - 15 / 190)
 
 [Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
 
 ## Associations
 
-### Reframing (10 / 165)
+### Reframing (10 / 200)
 **Question:** We have a lot of choice when it comes to databases, why are we using SQL?
 
 We use SQL because it is a relational database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this:
@@ -343,9 +402,9 @@ When we start organizing our objects in this manner and program these associatio
 
 Let's see what some of this stuff looks like in code. We're going to be adding an instructor model to our program.
 
-### Associations in Schema - WDI (I Do - 10 / 175)
+### Associations in Schema - WDI (I Do - 10 / 210)
 
-**NOTE:** In this section, we are reviewing we our schema and how it reflects associations for our domain. We are NOT updating the schema file.
+**NOTE:** In this section, we are reviewing our schema and how it reflects associations for our domain. We are NOT updating the schema file.
 
 In `wdi_schema.sql`:
 
@@ -372,7 +431,8 @@ CREATE TABLE students (
 
 Make note of the foreign key in `students`
 
-### Updating Class Definitions - WDI (I Do - 10 / 195)
+## Break (10/220)
+### Updating Class Definitions - WDI (I Do - 10 / 230)
 
 Next I want to create a new file for my Instructor AR Class definition `$ touch models/instructor.rb`. In it I'll put:
 
@@ -389,7 +449,7 @@ class Student < ActiveRecord::Base
   belongs_to :instructor
 end
 ```
-> note the plurality of `students` and singularity of `instructor`
+> note the plurality of `students` and singularity of `instructor`.  
 
 We also need to include the `models/instructor.rb` file into our `app.rb` so in `app.rb` we need to add
 
@@ -397,31 +457,33 @@ We also need to include the `models/instructor.rb` file into our `app.rb` so in 
 require_relative "models/instructor"
 ```
 
-### Updating Class Definitions - Tunr (You Do - 5 / 200)
+### Updating Class Definitions - Tunr (You Do - 10 / 240)
 
 [Part 1.4 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-14---create-your-song-model--setup-associations)
 
 [solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
-### Break (10 / 210)
-
-### Association Helper Methods - WDI (I Do - 30 / 240)
+### Association Helper Methods - WDI (I Do - 30 / 270)
 
 So we added some code, but we can't yet see the functionality it gives us.
 
 Basically when we added those two lines of code `has_many :students` `belongs_to :instructor` we created some helper methods that allow us to query the database more effectively.
 
-Lets create some objects so we can see what were talking about:
+Lets create some objects in our `app.rb` so we can see what were talking about:
 
 ```ruby
+Student.destroy_all
+Instructor.destroy_all
 jesse = Instructor.create(first_name: "Jesse", last_name: "Shawl", age: 26)
 adrian = Instructor.create(first_name: "Adrian", last_name: "Maseda", age: 28)
 
-Student.create(first_name: "Tom", last_name: "Jefferson", age: 67, job: "Doctor", instructor: adrian)
-Student.create(first_name: "Jack", last_name: "Adams", age: 67, job: "Lawyer", instructor: jesse)
-Student.create(first_name: "Andy", last_name: "Jackson", age: 55, job: "Banker", instructor: jesse)
-Student.create(first_name: "Ted", last_name: "Roosevelt", age: 55, job: "Hunter", instructor: adrian)
+tom = Student.create(first_name: "Tom", last_name: "Jefferson", age: 67, job: "Doctor", instructor: adrian)
+jack = Student.create(first_name: "Jack", last_name: "Adams", age: 67, job: "Lawyer", instructor: jesse)
+andy = Student.create(first_name: "Andy", last_name: "Jackson", age: 55, job: "Banker", instructor: jesse)
+ted = Student.create(first_name: "Ted", last_name: "Roosevelt", age: 55, job: "Hunter", instructor: adrian)
 ```
+
+> ST-WG Why do we need to use `.destroy_all`?
 
 Now that we have this association, we can now easily query the database for the relevant records.
 
@@ -457,11 +519,11 @@ jesse.students.create(first_name: "baskin", last_name: "robbins", age: 34, job: 
 ```
 > **Note** that we did not pass in an instructor id above. Active Record is smart and does that for us.
 
-### Association Helper Methods - Tunr (You Do - 15 / 255)
+### Association Helper Methods - Tunr (You Do - 15 / 285)
 
 [Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
 
-### Seeding a Database - WDI (15 / 270)
+### Seeding a Database - WDI (15 / 300)
 Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
 
 We want some sort of data in our database so that we can test our applications. Let's create a seed file in the terminal: `$ touch db/seeds.rb`
@@ -492,6 +554,8 @@ robin.students.create(first_name: "Dwight", last_name: "Schrute", age: 34, job: 
 adam.students.create(first_name: "Dee", last_name: "Reynolds", age: 32, job: "Bartender")
 adam.students.create(first_name: "Charlie", last_name: "Kelly", age: 31, job: "Owner of Paddy's")
 ```
+
+Once we get rid of this duplicate CRUD code in `app.rb` we can just run this seed file once and know our data is good.
 
 Now when we run our application with `ruby app.rb`, we enter into Pry with all our data loaded.
 
