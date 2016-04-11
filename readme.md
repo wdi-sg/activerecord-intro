@@ -1,6 +1,6 @@
 # Active Record
 
-## LO's
+## Learning Objectives
 - Define ORM and why we use it over a database language.
 - Explain what Active record is and what problems it solves.
 - Explain convention over configuration and how it relates to Active Record
