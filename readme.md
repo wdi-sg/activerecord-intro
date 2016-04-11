@@ -150,8 +150,8 @@ Type "help" for help.
 
 The output should be:
 ```
-id | first_name | last_name | age | job | instructor_id
-----+------------+-----------+-----+-----+---------------
+id | name  | photo_url | nationality | 
+----+--------+-----------+--------------+
 (0 rows)
 ```
 
