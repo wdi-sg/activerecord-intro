@@ -253,7 +253,7 @@ puts "end of application"
 
 You'll know you did this right if:
 
-Run your program and then when you enter `pry` run this line of code:
+Run your program(`$ ruby app.rb`) and then when you enter `pry` run this line of code:
 
 you should get something like this(it won't be the same letters and numbers)
 ```bash
