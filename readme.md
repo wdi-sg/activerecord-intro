@@ -49,7 +49,39 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 
 ## Active Record
 
+In order to do use use Active Record to write ruby to manipulate data, we need to be able to talk about the **models** of our data.
+
+<details>
+
+<summary>What is Domain modeling and why do we do it?</summary>
+<br>
+
+```
+Domain modeling is the act of describing entities
+and their relationships in an application's data.
+This method is useful for deciding data what needs to be persisted.
+```
+
+</details>
+
+<br>
+When we we data model, we tend to be talking about the **Nouns** in our
+application. These are the names of the *tables* in our database and the names
+of our Ruby *classes*.
+
+Likewise when we write queries, we use **Verbs** to describe the specific data
+we want.
+
+Essentially, in order to store and retrieve information, a lot of what we do
+today will look like some form of the equation:
+
+ > **Noun** + **Verb** = **Data**
+
+With the help of Active Record, we can begin to write programs that follow this
+simple pattern to manipulate data.
+
 ### Convention Over configuration (ST-WG - 10 / 35)
+
 Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often here us say Convention over Configuration.
 
 <details>
