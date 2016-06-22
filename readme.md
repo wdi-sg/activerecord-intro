@@ -1,41 +1,34 @@
 # Active Record
 
 ## Learning Objectives
-- Define ORM and why we use it over a database language.
-- Explain what Active record is and what problems it solves.
+- Define the term `ORM` and why we use it over a database language.
+- Explain what Active Record is and what problems it solves.
 - Explain convention over configuration and how it relates to Active Record
 - Define a class that inherits from AR
-- Utilize AR to perform the following CRUD actions on a database
-  - create
-  - new
-  - save
-  - all
-  - find, find_by
-  - where
-  - update
-  - destroy
-- Differentiate between class versus instant methods in Active Record objects/classes
+- Utilize AR to perform CRUD actions on a database
+- Differentiate between class and instance methods in Active Record objects/classes
 - Utilize `has_many`, `belongs_to` to establish associations/relationships with AR
 - Seed a database using AR
 
-
 ## Framing (5 / 5)
+
 Think about what we have learned so far in this unit. We now have a way to persist data in a database. We've also learned about how OOP allows us to programmatically represent real things as objects in ruby. Which is AWESOME! But really databases just seems like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD. It'd be really nice if we had some kind of way to interface between the database and our servers/applications in order to streamline this process. Enter ORM's.
 
 ### Information Dive (5 / 10)
+
 For the next 5 minutes, research what ORM's are.
 
 [ORM - wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
 
 [AR Read 1.1 - 1.3](http://guides.rubyonrails.org/active_record_basics.html)
 
-### T&T (5 / 15)
-Now, turn & talk to your neighbor and discuss:
+Try to answer these questions:
 
 1. At a high level, what are ORM's and how might they be useful?
 2. What is the importance of interfacing the server with the database?
 
 ## ORM's & Active Record (10 / 25)
+
 - *Official* wikipedia definition. A programming technique for converting data between incompatible type systems in object-oriented programming languages.
 
 > Thats sounds like a lot of 5 dollar words, but what does it really mean?
@@ -43,7 +36,7 @@ Now, turn & talk to your neighbor and discuss:
 We need a way to encapsulate our databases into objects that we can talk to on our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, its an object represented on our server now. That's what ORM's do.
 
 More concretely ORM's:
-- 'Map' (translate) objects to rows in our DB (and vice versa)
+- *'Map'* (translate) objects to rows in our DB (and vice versa)
 - **Conventions**:
   - 1 table per Model/Class/Entity
   - table name is model name pluralized
@@ -55,12 +48,19 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 > Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. - Taken from AR docs
 
 ## Active Record
+
 ### Convention Over configuration (ST-WG - 10 / 35)
 Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often here us say Convention over Configuration.
 
-**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?
+<details>
+<summary>**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
+<br>
 
+```
 Basically Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers agree on best practices, and therefore allows us to spend less time trying to configure, when there all ready is an accepted way to do things. Some of the common ones we will encounter are naming conventions such as: plural vs single, capital or lower, camel or snake.
+```
+</details>
+
 
 **BOARD:** Throughout this lesson, I will write on the board Active Record's conventions so we can list them as we go.
 
@@ -68,117 +68,51 @@ In a nutshell, if you don't follow the conventions, you're going to have a bad t
 
 Alright! Let's get started with some code!
 
-### Setup SQL - WDI (I Do - 10 / 45)
-> Throughout the day, I'll be doing some code simulating a "wdi application" then you will code along with our Tunr
-applications. Please **do not** code along the wdi application.
+### Setup SQL - Tunr (You Do - 10 / 45)
 
-Let's go over our domain model for both applications.
+> [Tunr Deployed link](https://wdi-dc6-tunr-demo.herokuapp.com/artists)
 
-![ERDs](./active-record.png)
+Make sure to review our domain model for tunr
 
+![Tunr Erd](tunr-erd.png)
 
-[Tunr Deployed link](https://wdi-dc6-tunr-demo.herokuapp.com/artists)
-
-I want to be able to do CRUD for these models with Active Record. We'll be going into greater detail about how we are going to use Active Record as an interface between our server and our database, but to start, the first thing that I want to do is create/setup a database.
-
-First let's create our database and create our schema file in the terminal:
+We want to be able to do CRUD for these models with Active Record. We'll be going into greater detail about how we are going to use Active Record as an interface between our server and our database, but to start, the first thing that we want to do is create/setup a database.
 
 ```bash
-# in ~/wdi/sandbox
-$ mkdir ar_wdi
-$ cd ar_wdi
-$ mkdir db
-$ touch db/wdi_schema.sql
-$ createdb wdi_db
+$ git clone git@github.com:ga-wdi-exercises/tunr-active-record.git
+$ cd tunr-active-record
+$ bundle install
+$ createdb tunr_db
+$ psql -d tunr_db < db/schema.sql
+$ atom .
 ```
-
-> All we did here was create a database in PSQL. If you ever want to drop a database the command is `$ dropdb <database_name>` (VERY DANGEROUS)
-
-Next, I want to update the schema file and then load tables for our models into the database:
-
-in `db/wdi_schema.sql` file:
-
-```sql
-DROP TABLE IF EXISTS instructors;
-DROP TABLE IF EXISTS students;
-
-CREATE TABLE instructors (
-  id SERIAL PRIMARY KEY,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  age INT NOT NULL
-);
-
-CREATE TABLE students (
-  id SERIAL PRIMARY KEY,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  age INT NOT NULL,
-  job TEXT,
-  instructor_id INT
-);
-```
-
-now lets run our `wdi_schema.sql` file in the terminal:
-
-```bash
-$ psql -d wdi_db < db/wdi_schema.sql
-```
-
-(ST-WG) Is this potentially really dangerous?
-
-**Question (ST-WG):** Why did we do this? Why not just go into psql and create the tables in postgres?
-
-It'll be nice going forward with your application that we package the schema up so that its modular. We can have others quickly pick up our code and have our exact database setup.
-
-### Setup SQL - Tunr (You Do - 10 / 55)
-
-Do everything that happened in the wdi app to set up your own app Tunr. An app of artists and songs.
 
 You'll know you did this right if:
 
-You enter psql and run these commands:
+Run your program(`$ ruby app.rb`) and then when you enter `pry` run this line of code:
 
-```
-$ psql
-psql (9.4.4, server 9.3.5)
-Type "help" for help.
-
-=# \c <database_name>
-=# SELECT * FROM artists;
-```
-
-The output should be:
-```
-id | name  | photo_url | nationality | 
-----+--------+-----------+--------------+
-(0 rows)
-```
-
-## Break (10/65)
-
-[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.0.zip)
-
-### Setup Ruby & Add Functionality - WDI (I Do - 20 / 85)
-Great, now we have a table loaded into our database we're now ready to get started on the ruby side.
-Let's first create all the directories/files we're going to need in the terminal:
-
+you should get something like this(it won't be the same letters and numbers)
 ```bash
-$ touch app.rb
-$ touch Gemfile
-$ mkdir models
-$ touch models/student.rb
+pry(main)> Artist.all
+=> #<Artist::ActiveRecord_Relation:0x3fc4911af384>
 ```
+
+**STOP**
+
+### Code Review / Walkthrough - Tunr (I Do 10 / 45)
+
+Let's do a quick walkthrough of our code base so far...
 
 > The `app.rb` file is our main application file. This is where a lot of the main program logic will live.
 
-> The `Gemfile` will contain all the dependencies for our program.
+> The `Gemfile` contains all the dependencies for our program.
 
-> The `models/student.rb` file will contain the class definition for the Student class that will represent the students table in SQL
+> The `models/artist.rb` file will contain the class definition for the Artist class that will represent the artists table in SQL
 
 > by convention we always name our model file names singular
 
-### The `Gemfile` - an aside
+#### The `Gemfile` - an aside
+
 A Gemfile is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration of apps. TLDR: Take someone's code, use it in your program.
 
 We stand on the shoulders of giants. Oh there's code for that? yoink.
@@ -195,37 +129,32 @@ gem "pry"  # this gem allows access to REPL
 
 > Without these gems, we would be unable to talk to our SQL database.
 
-Then I'm going to run `$ bundle install` in the terminal.
+#### Defining our Models
 
-
-### Functionality - WDI (I Do - 20 / 105)  
-
-In the `models/student.rb` file, let's define our student model:
+In the `models/artist.rb` file, we need to define our `artist` model:
 
 ```ruby
-class Student < ActiveRecord::Base
+class Artist < ActiveRecord::Base
   # AR classes are singular and capitalized by convention
 end
 ```
 
-> In this ruby file, we create a class of Student that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the ruby `Student` class to the `students` table in postgres.
+> In this ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the ruby `Artist` class to the `artists` table in postgres.
 
-Now, lets create a file that handles the connection between our application and our database:
+#### Connecting to Postgres
 
-```bash
-# Add a connection.rb file to our db directory
-$ touch db/connection.rb
-```
+Now, in order to connect our application to our database we have `db/connection.rb` file:
 
-In `db/connection.rb`:
 ```ruby
 ActiveRecord::Base.establish_connection(
   :adapter => "postgresql",
-  :database => "wdi_db"
+  :database => "tunr_db"
 )
 ```
 
-Finally, let's build out the functionality of the `app.rb` file(which in this case is just dropping us into pry):
+#### Wiring the application together
+
+Finally, we have our `app.rb` file(which in this case is just dropping us into pry):
 
 ```ruby
 require "bundler/setup" # require all the gems we'll be using for this app from the Gemfile. Obviates the need for `bundle exec`
@@ -234,42 +163,30 @@ require "active_record" # the ORM
 require "pry" # for debugging
 
 require_relative "db/connection" # require the db connection file that connects us to PSQL, prior to loading models
-require_relative "models/student" # require the Student class definition that we defined in the models/student.rb file
+require_relative "models/artist" # require the Artist class definition that we defined in the models/artist.rb file
+
 
 # This will put us into a state of the pry REPL, in which we've established a connection
-# with the wdi database and have defined the Student Class as an
+# with the tunr_db database and have defined the Artist Class as an
 # ActiveRecord::Base class.
 binding.pry
 
 puts "end of application"
-
 ```
 
 > note the difference between `require` and `require_relative`. With `require` we are getting gems and `require_relative` we are getting files relative to the location of the file we wrote `require_relative` in
 
-### Functionality - Tunr (You Do - 20 / 125) + Break(10/135)
+**STOP**
 
-[Part 1.1 & 1.2 - Define Artist & Setup Your `app.rb` to Connect The Database](https://github.com/ga-wdi-exercises/tunr-active-record#part-11---create-the-artist-model-using-active-record)
-
-You'll know you did this right if:
-
-Run your program(`$ ruby app.rb`) and then when you enter `pry` run this line of code:
-
-you should get something like this(it won't be the same letters and numbers)
-```bash
-pry(main)> Artist.all
-=> #<Artist::ActiveRecord_Relation:0x3fc4911af384>
-```
-
-[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.1.zip)
-
-### Seed the database - Tunr (You Do - 10 / 145)
+### Seed the database - Tunr (We Do - 5 / 50)
 
 Create a new file in the `db` directory called `seed.sql`.
 
 In the `db/seed.sql` file place the contents of this [website](https://raw.githubusercontent.com/ga-wdi-exercises/tunr-active-record/c8e99172a6c09930ed18392aae5a98e571cbc507/db/seeds.sql)
 
-Then, just like the schema file, load the `db/seed.sql` into the tunr database you created.
+Load the `db/seed.sql` into the `tunr database` you created.
+
+`$ psql -d tunr_db < db/seeds.sql`
 
 You did this right if:
 
@@ -280,7 +197,9 @@ pry(main)> Artist.all.length
 => 14
 ```
 
-### Methods - WDI (I Do -  30/175)
+## Break (10 / 60)
+
+### Methods - Tunr (I Do 15 / 75)
 
 Great! We've got everything done that we need to get setup with single model CRUD in our application. Let's run it in the terminal:
 
@@ -290,74 +209,96 @@ $ ruby app.rb
 
 When we run this app, we can see that it drops us into pry. Let's write some code in pry to update our database... **IN REALTIME!!!**
 
-**Board:** I want to come up with an ongoing list of class methods vs instance methods that we can add to as we use them
+**Board:** I want to come up with an ongoing list of *class* methods vs *instance* methods that we can add to as we use them
 
-Let's create an instance of the Student object on the ruby side:
+Let's create an instance of the `Artist` object on the ruby side:
 
 > **Note** the syntax for creating a new instance.
 
 ```ruby
-george = Student.new(first_name: "George", last_name: "Washington", age: 270, job: "Prez")
+kanye = Artist.new(name: "Kanye West", nationality: "American")
 ```
 
 To save our instance to the database we use `.save`:
 
 ```ruby
-george.save
+kanye.save
 ```
 
 If we want to initialize an instance of an object AND save it to the database we use `.create`:
 
 ```ruby
-abe = Student.create(first_name: "Abe", last_name: "Lincoln", age: 150, job: "Prez")
+elvis = Artist.create(name: "Elvis Presley", nationality: "American")
 ```
 
-(ST-WG) Why is there a distinction between when it's saved in one command versus two.
+<!-- SQL for create  -->
+<details>
+<summary>This would roughly translate to `SQL` code</summary>
+>
+```sql
+INSERT INTO artists (name, nationality) VALUES ('Elvis Presley', 'American');
+```
+
+</details>
+
+<br>
+**(ST-WG)** Why is there a distinction between when it's saved in one command versus two?
 
 One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model are now `attr_accessor`'s as well. So we can do things like:
 
 ```ruby
-george.first_name
-# gets the first name of george
-george.first_name = "Jorge"
-# sets the first name to "Jorge"
-george.save
+kanye.name
+# gets the name of kanye
+kanye.name = "Yeezus"
+# sets name to "Yeezus"
+kanye.save
 # saves the model to the database
 ```
 
 > **Note:** Should be noted that when we set the attribute using a setter, it doesn't automatically save to the database, its not until we call `.save` on the object that it saves to the database
 
-To get all of the students we use `.all`:
+To get all of the songs we use `.all`:
 
 ```ruby
-Student.all
+Artist.all
 ```
 
-We can also find a student by its ID using `.find`:
+We can also find a song by its ID using `.find`:
 
 ```ruby
-Student.find(1)
+Artist.find(1)
 ```
 
-Additionally we can also find a student by an attribute using `.find_by`:
+<!-- SQL for find  -->
+<details>
+<summary>This would roughly translate to `SQL` code</summary>
+>
+```sql
+SELECT * FROM artists WHERE id = 1 LIMIT 1;
+```
+
+</details>
+
+<br>
+Additionally we can also find a song by an attribute using `.find_by`:
 
 ```ruby
-Student.find_by(last_name: "Washington")
+Artist.find_by(name: "Elvis Presley")
 ```
 
 > Note that find_by only returns the first object that meets the requirements of the arguments
 
-If you want all students that meet a certain query then we use `.where`:
+If you want all songs that meet a certain query then we use `.where`:
 
 ```ruby
-Student.where(last_name: "Washington")
+Artist.where(nationality: "American")
 ```
 
 We can also update attributes and save at the same time using the `.update` method:
 
 ```ruby
-george = Student.find_by(last_name: "Washington")
-george.update(job: "actor", first_name: "Denzel")
+elvis = Artist.find_by(name: "Elvis Presley")
+elvis.update(nationality: "Canadian")
 ```
 
 > If we want to update the attribute and not save we would have to use something from this [post](http://www.davidverhasselt.com/set-attributes-in-activerecord/)
@@ -365,26 +306,33 @@ george.update(job: "actor", first_name: "Denzel")
 Finally we can also just destroy/delete rows in our database with the `.destroy` method:
 
 ```ruby
-george = Student.find_by(last_name: "Washington")
-george.destroy
-# goodbye george you're gone forever
+kanye = Artist.find_by(name: "Yeezus")
+kanye.destroy
+# goodbye kanye you're gone forever
 ```
 
-> This is exciting stuff by the way, imagine, while we do these things, that our students model is instead a post on facebook, or a comment on facebook. So the next time you comment on someone's facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
+> This is exciting stuff by the way, imagine, while we do these things, that our artists model is instead a post on facebook, or a comment on facebook. So the next time you comment on someone's facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
-### Methods - Tunr (You Do (In Pry!) - 15 / 190)
+### Methods - Tunr (You Do (In Pry!) - 15 / 90)
 
 [Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
 
 ## Associations
 
-### Reframing (10 / 200)
-**Question:** We have a lot of choice when it comes to databases, why are we using SQL?
+### Reframing (10 / 100)
 
-We use SQL because it is a relational database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this:
+<details>
+<summary>**Q**. We have a lot of choice when it comes to databases, why are we using SQL?</summary>
 
-One model has many other instances of another model. And that other model belongs to the original. Not really clear, eh?
+<br>
 
+```
+We use SQL because it is a relational database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
+```
+
+</details>
+
+<br>
 Let's take a look at an example in the wild.
 
 With the application Facebook, there are many users. Each of these users have several models associated with them. Let's look at one more closely. We'll be looking at posts(status updates)
@@ -400,130 +348,135 @@ When we start organizing our objects in this manner and program these associatio
 
 > Note that this is just speaking at a high level and not modeling the exact syntax, however it's incredibly close to how the code actually would look if it were modeled in AR.
 
-Let's see what some of this stuff looks like in code. We're going to be adding an instructor model to our program.
+Let's see what some of this stuff looks like in code. We're going to be adding an artist model to our program.
 
-### Associations in Schema - WDI (I Do - 10 / 210)
+### Associations in Schema - Tunr (I Do - 5 / 105)
 
 **NOTE:** In this section, we are reviewing our schema and how it reflects associations for our domain. We are NOT updating the schema file.
 
-In `wdi_schema.sql`:
+Looking back at our schema, in `schema.sql`:
 
 ```sql
-DROP TABLE IF EXISTS instructors;
-DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS songs;
+DROP TABLE IF EXISTS artists;
 
-CREATE TABLE instructors (
+CREATE TABLE artists(
   id SERIAL PRIMARY KEY,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  age INT NOT NULL
+  name TEXT,
+  photo_url TEXT,
+  nationality TEXT
 );
 
-CREATE TABLE students (
+CREATE TABLE songs(
   id SERIAL PRIMARY KEY,
-  first_name TEXT NOT NULL,
-  last_name TEXT NOT NULL,
-  age INT NOT NULL,
-  job TEXT,
-  instructor_id INT
+  title TEXT,
+  album TEXT,
+  preview_url TEXT,
+  artist_id INT
 );
 ```
 
-Make note of the foreign key in `students`
+Make note of the foreign key in `songs`
 
-## Break (10/220)
-### Updating Class Definitions - WDI (I Do - 10 / 230)
+### Updating Class Definitions - Tunr (I Do - 5 / 110)
 
-Next I want to create a new file for my Instructor AR Class definition `$ touch models/instructor.rb`. In it I'll put:
+Next we need to update the models to reflect the relationships in our application.
 
 ```ruby
-class Instructor < ActiveRecord::Base
-  has_many :students
+class Artist < ActiveRecord::Base
+  has_many :songs
 end
 ```
 
-Now In my `models/student.rb` we have to reflect the association:
+Now In our `models/song.rb` we have to reflect the association:
 
 ```ruby
-class Student < ActiveRecord::Base
-  belongs_to :instructor
+class Song < ActiveRecord::Base
+  belongs_to :artist
 end
 ```
-> note the plurality of `students` and singularity of `instructor`.  
+> note the plurality of `songs` and singularity of `artist`.  
 
-We also need to include the `models/instructor.rb` file into our `app.rb` so in `app.rb` we need to add
+We also need to include the `models/song.rb` file into our `app.rb` so in `app.rb` we need to add
 
 ```ruby
-require_relative "models/instructor"
+require_relative "models/song"
 ```
 
-### Updating Class Definitions - Tunr (You Do - 10 / 240)
+### Updating Class Definitions - Tunr (You Do - 5 / 115)
 
-[Part 1.4 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-14---create-your-song-model--setup-associations)
+[Part 1.2 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-12---create-your-song-model--setup-associations)
 
 [solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
-### Association Helper Methods - WDI (I Do - 30 / 270)
+### Association Helper Methods - Tunr (I Do - 10 / 125)
 
 So we added some code, but we can't yet see the functionality it gives us.
 
-Basically when we added those two lines of code `has_many :students` `belongs_to :instructor` we created some helper methods that allow us to query the database more effectively.
+Basically when we added those two lines of code `has_many :songs` `belongs_to :artist` we created some helper methods that allow us to query the database more effectively.
 
 Lets create some objects in our `app.rb` so we can see what were talking about:
 
 ```ruby
-Student.destroy_all
-Instructor.destroy_all
-jesse = Instructor.create(first_name: "Jesse", last_name: "Shawl", age: 26)
-adrian = Instructor.create(first_name: "Adrian", last_name: "Maseda", age: 28)
+Song.destroy_all
+Artist.destroy_all
 
-tom = Student.create(first_name: "Tom", last_name: "Jefferson", age: 67, job: "Doctor", instructor: adrian)
-jack = Student.create(first_name: "Jack", last_name: "Adams", age: 67, job: "Lawyer", instructor: jesse)
-andy = Student.create(first_name: "Andy", last_name: "Jackson", age: 55, job: "Banker", instructor: jesse)
-ted = Student.create(first_name: "Ted", last_name: "Roosevelt", age: 55, job: "Hunter", instructor: adrian)
+ratatat = Artist.create(name: "Ratatat", nationality: "American")
+beatles = Artist.create(name: "The Beatles", nationality: "British")
+
+# NOTE: you can pass an array to create for bulk creation
+Song.create([
+    {title: "Wildcat", album: "Classics", artist: ratatat },
+    {title: "Loud Pipes", album: "Classics", artist: ratatat },
+    {title: "Neckbrace", album: "LP4", artist: ratatat },
+    {title: "Twist and Shout", album: "Please Please Me", artist: beatles},
+    {title: "Hello, Goodbye", album: "Magical Mystery Tour", artist: beatles},
+    {title: "Revolution", album: "The Beatles", artist: beatles},
+  ])
 ```
 
 > ST-WG Why do we need to use `.destroy_all`?
 
 Now that we have this association, we can now easily query the database for the relevant records.
 
-If I want to get all of Jesse's students or set Jesse's students I can now write this code:
-```ruby
-jesse = Instructor.find_by(first_name: "Jesse")
-jesse.students
-# will return all students that belong to Jesse, this is .students being used as a getter method
-
-jesse.students = [Student.first, Student.last]
-# this is .students being used as a setter method
-```
-> note that when students is being used as a setter method above, it actually changes the instructor_id column for those students to match Jesse's primary ID. Any student that previously was assigned to Jesse and not reassigned in the setter will now have an instructor_id of nil
-
-Alternatively if I wanted to get a student's instructor I could write this code:
+If we want to get all of The Beatles' songs or set The Beatles' songs, we can now write this code:
 
 ```ruby
-jack = Student.find_by(first_name: "Jack")
-jack.instructor
-# will return Jack's instructor, this is .instructor being used as a getter method
+beatles = Artist.find_by(name: "The Beatles")
+beatles.songs
+# will return all songs that belong to The Beatles, this is .songs being used as a getter method
 
-adrian = Instructor.last
-jack.instructor = adrian
-jack.save
-# this .instructor being used as a setter method, and now Jack's instructor is Adrian
+beatles.songs = [Song.first, Song.last]
+# this is .songs being used as a setter method
 ```
+> note that when songs is being used as a setter method above, it actually changes the artist_id column for those songs to match The Beatles' primary ID. Any song that previously was assigned to The Beatles and not reassigned in the setter will now have an artist_id of nil
 
-We can also create new students under a certain instructor by doing the following:
+Alternatively if I wanted to get a song's artist I could write this code:
 
 ```ruby
-jesse.students.create(first_name: "baskin", last_name: "robbins", age: 34, job: "icecream")
-# this will create a new student that belongs to the Instructor object named jesse.
-```
-> **Note** that we did not pass in an instructor id above. Active Record is smart and does that for us.
+loud_pipes = Song.find_by(title: "Loud Pipes")
+loud_pipes.artist
+# will return loud_pipes' artist, this is .artist being used as a getter method
 
-### Association Helper Methods - Tunr (You Do - 15 / 285)
+beatles = Artist.last
+loud_pipes.artist = beatles
+loud_pipes.save
+# this .artist being used as a setter method, and now loud_pipes's artist is Adrian
+```
+
+We can also create new songs under a certain artist by doing the following:
+
+```ruby
+beatles.songs.create(title: "Hey Jude", album: "Beatles Chillout (Vol. 1)")
+# this will create a new song that belongs to the Artist object named beatles.
+```
+> **Note** that we did not pass in an artist id above. Active Record is smart and does that for us.
+
+### Association Helper Methods - Tunr (You Do - 10 / 135)
 
 [Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
 
-### Seeding a Database - WDI (15 / 300)
+### Seeding a Database - Tunr (I Do - 10 / 145)
 Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
 
 We want some sort of data in our database so that we can test our applications. Let's create a seed file in the terminal: `$ touch db/seeds.rb`
@@ -537,29 +490,42 @@ require "pg"
 require "active_record"
 require "pry"
 
-require_relative "../models/student"
-require_relative "../models/instructor"
+require_relative "../models/song"
+require_relative "../models/artist"
 
 require_relative "../db/connection.rb"
 
 
-Instructor.destroy_all
-Student.destroy_all
+Artist.destroy_all
+Song.destroy_all
 # destroys existing data in database
 
-robin = Instructor.create(first_name: "Robin", last_name: "Thomas", age: 26)
-adam = Instructor.create(first_name: "Adam", last_name: "Bray", age: 30)
-robin.students.create(first_name: "Michael", last_name: "Scott", age: 45, job: "Office Manager")
-robin.students.create(first_name: "Dwight", last_name: "Schrute", age: 34, job: "Assistant to the Regional Manager")
-adam.students.create(first_name: "Dee", last_name: "Reynolds", age: 32, job: "Bartender")
-adam.students.create(first_name: "Charlie", last_name: "Kelly", age: 31, job: "Owner of Paddy's")
+chili_peppers = Artist.create(name: "Red Hot Chili Peppers", nationality: "American")
+led = Artist.create(name: "Led Zeppelin", nationality: "British")
+
+chili_peppers.songs.create([
+    {title: "Can't Stop", album: "By The Way" },
+    {title: "Scar Tissue", album: "Californication" },
+    {title: "Californication", album: "Californication" },
+    {title: "Dani California", album: "Stadium Arcadium" },
+    {title: "Dark Necessities", album: "The Getaway"}
+  ])
+
+led.songs.create([
+    {title: "Whola Lotta Love", album: "Led Zeppelin II" },
+    {title: "Stairway to Heaven", album: "Led Zeppelin IV" },
+    {title: "Kashmir", album: "Physical Graffiti" },
+    {title: "Black Dog", album: "Led Zeppelin IV" },
+    {title: "All My Love", album: "In Through the Out Door"}
+    ])
 ```
 
 Once we get rid of this duplicate CRUD code in `app.rb` we can just run this seed file once and know our data is good.
 
 Now when we run our application with `ruby app.rb`, we enter into Pry with all our data loaded.
 
-## Closing
+## Closing (5 / 150)
+
 Who misses writing SQL queries by hand? Exactly. Active Record is extremely powerful and helpful, and allows us to easily interface with the business models for our applications.
 
 Review Learning Objectives
