@@ -116,6 +116,7 @@ $ cd tunr-active-record
 $ bundle install
 $ createdb tunr_db
 $ psql -d tunr_db < db/schema.sql
+$ psql -d tunr_db < db/seeds.sql
 $ atom .
 ```
 
@@ -209,25 +210,6 @@ puts "end of application"
 > note the difference between `require` and `require_relative`. With `require` we are getting gems and `require_relative` we are getting files relative to the location of the file we wrote `require_relative` in
 
 **STOP**
-
-### Seed the database - Tunr (We Do - 5 / 50)
-
-Create a new file in the `db` directory called `seed.sql`.
-
-In the `db/seed.sql` file place the contents of this [website](https://raw.githubusercontent.com/ga-wdi-exercises/tunr-active-record/c8e99172a6c09930ed18392aae5a98e571cbc507/db/seeds.sql)
-
-Load the `db/seed.sql` into the `tunr database` you created.
-
-`$ psql -d tunr_db < db/seeds.sql`
-
-You did this right if:
-
-You run your program and enter this and get the same output:
-
-```bash
-pry(main)> Artist.all.length
-=> 14
-```
 
 ## Break (10 / 60)
 
