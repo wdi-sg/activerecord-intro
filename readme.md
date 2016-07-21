@@ -1,9 +1,9 @@
 # Active Record
 
 ## Screen Casts for code
-[Part 1](https://youtu.be/wbAPxnuIXck)
-[Part 2](https://youtu.be/J9w1CDXrOXc)
-[Part 3](https://youtu.be/NQNBnmpG5tE)
+- [Part 1](https://youtu.be/wbAPxnuIXck)
+- [Part 2](https://youtu.be/J9w1CDXrOXc)
+- [Part 3](https://youtu.be/NQNBnmpG5tE)
 
 ## Learning Objectives
 
