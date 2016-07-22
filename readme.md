@@ -4,6 +4,8 @@
 - [Part 1](https://youtu.be/wbAPxnuIXck)
 - [Part 2](https://youtu.be/J9w1CDXrOXc)
 - [Part 3](https://youtu.be/NQNBnmpG5tE)
+- [Part 4](https://youtu.be/EkD5LEyALvM)
+- [Part 5](https://youtu.be/VOH26fAzc4o)
 
 ## Learning Objectives
 
