@@ -57,7 +57,7 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 
 ## Active Record
 
-In order to do use use Active Record to write ruby to manipulate data, we need to be able to talk about the **models** of our data.
+For you to use Active Record to write ruby which manipulates data, we need to be able to talk about the **models** of our data.
 
 <details>
 
