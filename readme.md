@@ -1,6 +1,7 @@
 # Active Record
 
 ## Learning Objectives
+
 - Define the term `ORM` and why we use it over a database language.
 - Explain what Active Record is and what problems it solves.
 - Explain convention over configuration and how it relates to Active Record
@@ -33,7 +34,7 @@ Try to answer these questions:
 
 > Thats sounds like a lot of 5 dollar words, but what does it really mean?
 
-We need a way to encapsulate our databases into objects that we can talk to on our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, its an object represented on our server now. That's what ORM's do.
+We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, its an object represented on our server now. That's what ORM's do.
 
 More concretely ORM's:
 - *'Map'* (translate) objects to rows in our DB (and vice versa)
@@ -43,7 +44,7 @@ More concretely ORM's:
   - each column is an attribute for that model
 - Table associations are handled using foreign keys
 
-It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax(because ruby is awesome) the industry has to offer. This ORM is Active Record.
+It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax (because ruby is awesome) the industry has to offer. This ORM is Active Record.
 
 > Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. - Taken from AR docs
 
@@ -54,7 +55,6 @@ In order to do use use Active Record to write ruby to manipulate data, we need t
 <details>
 
 <summary>What is Domain modeling and why do we do it?</summary>
-<br>
 
 ```
 Domain modeling is the act of describing entities
@@ -102,7 +102,7 @@ Alright! Let's get started with some code!
 
 ### Setup SQL - Tunr (You Do - 10 / 45)
 
-> [Tunr Deployed link](https://wdi-dc6-tunr-demo.herokuapp.com/artists)
+> [Tunr Deployed link](https://wdi-dc-tunr.herokuapp.com/artists)
 
 Make sure to review our domain model for tunr
 
@@ -142,11 +142,11 @@ Let's do a quick walkthrough of our code base so far...
 
 > The `models/artist.rb` file will contain the class definition for the Artist class that will represent the artists table in SQL
 
-> by convention we always name our model file names singular
+> **Note**: by convention we always name our model file names singular
 
 #### The `Gemfile` - an aside
 
-A Gemfile is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration of apps. TLDR: Take someone's code, use it in your program.
+A `Gemfile` is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration of apps. TLDR: Take someone's code, use it in your program.
 
 We stand on the shoulders of giants. Oh there's code for that? yoink.
 
@@ -325,7 +325,7 @@ kanye.destroy
 # goodbye kanye you're gone forever
 ```
 
-> This is exciting stuff by the way, imagine, while we do these things, that our artists model is instead a post on facebook, or a comment on facebook. So the next time you comment on someone's facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
+> This is exciting stuff by the way, imagine, while we do these things, that our artists model is instead a post on Facebook, or a comment on Facebook. So the next time you comment on someone's Facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
 ### Methods - Tunr (You Do (In Pry!) - 15 / 90)
 
@@ -358,7 +358,7 @@ And every Post belongs to a certain user.
 
 > Note the plurality of the nouns used in these two sentences
 
-When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. IE. If we were on Adrian's facebook page, it wouldn't make sense for us to query EVERY post in facebook and then do `.where(facebook_user: "Adrian")` That would get really expensive. Instead we can do something like, `adrian.posts` and then BAM, we got all of adrian's posts.
+When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. IE. If we were on Adrian's Facebook page, it wouldn't make sense for us to query EVERY post in facebook and then do `.where(facebook_user: "Adrian")` That would get really expensive. Instead we can do something like, `adrian.posts` and then BAM, we got all of adrian's posts.
 
 > Note that this is just speaking at a high level and not modeling the exact syntax, however it's incredibly close to how the code actually would look if it were modeled in AR.
 
