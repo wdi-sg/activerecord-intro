@@ -64,9 +64,15 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 
 > Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. - Taken from AR docs
 
-## Active Record
+## ActiveRecord
 
-For you to use Active Record to write ruby which manipulates data, we need to be able to talk about the **models** of our data.
+ActiveRecord is like a library that implements the Active record pattern in Ruby.
+
+In order to use ActiveRecord in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
+
+But before we even do that, we have to decide on what our data is! How much of the real world are we going to attempt to represent in our programs? What data do our programs need to fulfill their purpose?  To be able to think about how to model our data, we need a process where we can precisely identify what we need represented in our programs as data.
+
+Programmers are constantly modeling domains, real world, fictional, abstract, mathematical or otherwise.
 
 <details>
 
@@ -89,16 +95,18 @@ Likewise when we write queries, we use **Verbs** to describe the specific data
 we want.
 
 Essentially, in order to store and retrieve information, a lot of what we do
-today will look like some form of the equation:
+today in ruby will look like some form of the equation:
 
  > **Noun** + **Verb** = **Data**
+ > Class.method # Class (Noun) method (Verb)
+ > Taco.all # returned all Taco data! 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮
 
 With the help of Active Record, we can begin to write programs that follow this
 simple pattern to manipulate data.
 
-### Convention Over configuration (ST-WG - 10 / 35)
+### Convention Over configuration (10 / 35)
 
-Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say Convention over Configuration.
+Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
 
 <details>
 <summary>**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
@@ -112,9 +120,13 @@ ActiveRecord and Rails, and other frameworks have a whole bunch of conventions t
 
 **BOARD:** Throughout this lesson, I will write on the board Active Record's conventions so we can list them as we go.
 
-In a nutshell, if you don't follow the conventions, you're going to have a bad time. Obeying the naming conventions in ActiveRecord, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
+##### In a nutshell, if you don't follow the conventions, you're going to have a bad time.
 
-Alright! Let's get started with some code!
+![pizza'd when should have french-fried](http://i62.tinypic.com/2vt47dc.jpg)
+
+Obeying the naming conventions in ActiveRecord, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
+
+##### Alright! Let's get started with some code!
 
 ### Setup SQL - Tunr (You Do - 10 / 45)
 
