@@ -20,7 +20,17 @@
 
 ## Framing (5 / 5)
 
-Think about what we have learned so far in this unit. We now have a way to persist data in a database. We've also learned about how OOP allows us to programmatically represent real things as objects in ruby. Which is AWESOME! But really databases just seems like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD. It'd be really nice if we had some kind of way to interface between the database and our servers/applications in order to streamline this process. Enter ORM's.
+Think about what we have learned so far in this unit: We've learned principles of object-oriented programming and how to get data to persist in a database using SQL.
+
+Object-oriented principles allow us to represent and describe real-world things in our programs as data.
+
+We now have a way to persist data in a database, although its reasonable to feel that really databases just seem like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD.
+
+ Being limited to writing SQL queries through the command-line isn't really ideal for the ruby programs we are aiming to write. Really, we need some way or tool to interact with the database in the context of our Ruby applications.
+
+It'd be ***really*** nice if beforehand, a bunch of genius programmers had worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
+
+
 
 ### Information Dive (5 / 10)
 
@@ -32,14 +42,13 @@ For the next 5 minutes, research what ORM's are.
 
 Try to answer these questions:
 
+0. What is the Active record pattern in a nutshell?
 1. At a high level, what are ORM's and how might they be useful?
 2. What is the importance of interfacing the server with the database?
 
 ## ORM's & Active Record (10 / 25)
 
 - *Official* wikipedia definition. A programming technique for converting data between incompatible type systems in object-oriented programming languages.
-
-> Thats sounds like a lot of 5 dollar words, but what does it really mean?
 
 We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, its an object represented on our server now. That's what ORM's do.
 
@@ -89,21 +98,21 @@ simple pattern to manipulate data.
 
 ### Convention Over configuration (ST-WG - 10 / 35)
 
-Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often here us say Convention over Configuration.
+Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say Convention over Configuration.
 
 <details>
 <summary>**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
 <br>
 
 ```
-Basically Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers agree on best practices, and therefore allows us to spend less time trying to configure, when there all ready is an accepted way to do things. Some of the common ones we will encounter are naming conventions such as: plural vs single, capital or lower, camel or snake.
+ActiveRecord and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a degree of consensus on best practices. These road-tested conventions therefore allow us to spend less time trying to configure, when there already is an accepted way to do things. We inherit from the programmers who have come before us a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!). Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in ActiveRecord, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 ```
 </details>
 
 
 **BOARD:** Throughout this lesson, I will write on the board Active Record's conventions so we can list them as we go.
 
-In a nutshell, if you don't follow the conventions, you're going to have a bad time.
+In a nutshell, if you don't follow the conventions, you're going to have a bad time. Obeying the naming conventions in ActiveRecord, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 
 Alright! Let's get started with some code!
 
@@ -111,9 +120,9 @@ Alright! Let's get started with some code!
 
 > [Tunr Deployed link](https://wdi-dc-tunr.herokuapp.com/artists)
 
-Make sure to review our domain model for tunr
+Make sure to review our domain model for tunr.
 
-![Tunr Erd](tunr-erd.png)
+![Tunr ERD](tunr-erd.png)
 
 We want to be able to do CRUD for these models with Active Record. We'll be going into greater detail about how we are going to use Active Record as an interface between our server and our database, but to start, the first thing that we want to do is create/setup a database.
 
