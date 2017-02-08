@@ -286,7 +286,7 @@ INSERT INTO artists (name, nationality) VALUES ('Elvis Presley', 'American');
 <br>
 **(ST-WG)** Why is there a distinction between when it's saved in one command versus two?
 
-One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model are now `attr_accessor`'s as well. So we can do things like:
+One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model have `attr_accessor`'s as well. So we can do things like:
 
 ```ruby
 kanye.name
@@ -357,6 +357,8 @@ kanye.destroy
 
 ### Methods - Tunr (You Do (In Pry!) - 15 / 90)
 
+> ¡! Don't forget to require 'pry' when you want to use binding.pry in your program
+
 [Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
 
 ## Associations
@@ -369,7 +371,7 @@ kanye.destroy
 <br>
 
 ```
-We use SQL because it is a relational database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
+We use SQL because it is a ***relational*** database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
 ```
 
 </details>
@@ -386,9 +388,9 @@ And every Post belongs to a certain user.
 
 > Note the plurality of the nouns used in these two sentences
 
-When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. IE. If we were on Adrian's Facebook page, it wouldn't make sense for us to query EVERY post in facebook and then do `.where(facebook_user: "Adrian")` That would get really expensive. Instead we can do something like, `adrian.posts` and then BAM, we got all of adrian's posts.
+When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. IE. If we were on Adrian's  Facebook page, we'd see all his posts. These are coming from some database. For that database, it wouldn't make sense for it to query EVERY post in Facebook and then check if going through every Facebook post ever and seeing if each post's user was the user whose page you have open.
 
-> Note that this is just speaking at a high level and not modeling the exact syntax, however it's incredibly close to how the code actually would look if it were modeled in AR.
+The fact that a bunch of posts were associated with Adrian's or anyone's  account, means that the entire database doesn't have to be queried, it just has to pull information **related** to one account, in the context of this example. **Relating** the 'categories' of things that go in the database is just a way of **structuring** or **organizing** the data in such a way that it is very useful to a program.
 
 Let's see what some of this stuff looks like in code. We're going to be adding an artist model to our program.
 
