@@ -65,11 +65,11 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 
 > Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. - Taken from AR docs
 
-## ActiveRecord
+## Active Record
 
-ActiveRecord is like a library that implements the Active record pattern in Ruby.
+Active Record is like a library that implements the Active record pattern in Ruby.
 
-In order to use ActiveRecord in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
+In order to use Active Record in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
 
 But before we even do that, we have to decide on what our data is! How much of the real world are we going to attempt to represent in our programs? What data do our programs need to fulfill their purpose?  To be able to think about how to model our data, we need a process where we can precisely identify what we need represented in our programs as data.
 
@@ -114,9 +114,9 @@ Before we get started with code, let's highlight a reoccurring theme with Active
 <br>
 
 ```
-ActiveRecord and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
+Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
 
-Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in ActiveRecord, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
+Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in Active Record, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 ```
 </details>
 
@@ -124,7 +124,7 @@ Some of the common ones we will encounter are naming conventions such as: plural
 
 ![pizza'd when should have french-fried](http://i62.tinypic.com/2vt47dc.jpg)
 
-Obeying the naming conventions in ActiveRecord saves you a good deal of headaches.
+Obeying the naming conventions in Active Record saves you a good deal of headaches.
 
 ##### Alright! Let's get started with some code!
 
