@@ -148,7 +148,7 @@ $ psql -d tunr_db < db/seeds.sql
 $ atom .
 ```
 
-> If you get an error message like this one:
+> During `bundle install`, if you get an error message like this one:
 > ```
 An error occurred while installing json (1.8.3), and Bundler cannot
 continue.
