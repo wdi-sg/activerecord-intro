@@ -20,18 +20,30 @@
 
 ## Framing (5 / 5)
 
-Think about what we have learned so far in this unit. We now have a way to persist data in a database. We've also learned about how OOP allows us to programmatically represent real things as objects in ruby. Which is AWESOME! But really databases just seems like data in this kind of cryptic place on our local computer.  We have to make super long SQL statements to do CRUD. It'd be really nice if we had some kind of way to interface between the database and our servers/applications in order to streamline this process. Enter ORM's.
+So far, we've learned principles of object-oriented programming and how to get data to persist in a database using SQL.
+
+Object-oriented principles allow us to represent and describe real-world things in our programs as data.
+
+We now have a way to persist data in a database, although it's reasonable to feel that databases are a cryptic storage space on our local machines. We have to make super long SQL statements to do CRUD.
+
+ Being limited to writing SQL queries through the command-line isn't ideal for the Ruby programs we are aiming to write. We need some way or tool to interact with the database in the context of our Ruby applications.
+
+It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
+
+
 
 ### Information Dive (5 / 10)
 
-For the next 5 minutes, research what ORM's are.
+For the next 5 minutes, pair up and research what ORM's are.
 
 [ORM - wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
+> Don't spend too much time with this wikipedia article, just glance it over.
 
 [AR Read 1.1 - 1.3](http://guides.rubyonrails.org/active_record_basics.html)
 
 Try to answer these questions:
 
+0. What is the Active record pattern in a nutshell?
 1. At a high level, what are ORM's and how might they be useful?
 2. What is the importance of interfacing the server with the database?
 
@@ -39,9 +51,7 @@ Try to answer these questions:
 
 - *Official* wikipedia definition. A programming technique for converting data between incompatible type systems in object-oriented programming languages.
 
-> Thats sounds like a lot of 5 dollar words, but what does it really mean?
-
-We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, its an object represented on our server now. That's what ORM's do.
+We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, it's an object represented on our server now. That's what ORM's do.
 
 More concretely ORM's:
 - *'Map'* (translate) objects to rows in our DB (and vice versa)
@@ -51,13 +61,19 @@ More concretely ORM's:
   - each column is an attribute for that model
 - Table associations are handled using foreign keys
 
-It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax (because ruby is awesome) the industry has to offer. This ORM is Active Record.
+It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax (because Ruby is awesome) the industry has to offer. This ORM is Active Record.
 
-> Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. - Taken from AR docs
+> Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. (from AR docs)
 
 ## Active Record
 
-For you to use Active Record to write ruby which manipulates data, we need to be able to talk about the **models** of our data.
+Active Record is a library that allows us to translate database records into objects that we can use in our Ruby applications. 
+
+In order to use Active Record in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
+
+But before we even do that, we have to decide on what our data is! How much of the real world are we going to attempt to represent in our programs? What data do our programs need to fulfill their purpose?  To be able to think about how to model our data, we need a process where we can precisely identify what we need represented in our programs as data.
+
+Programmers are constantly modeling domains, real world, fictional, abstract, mathematical or otherwise.
 
 <details>
 
@@ -80,40 +96,45 @@ Likewise when we write queries, we use **Verbs** to describe the specific data
 we want.
 
 Essentially, in order to store and retrieve information, a lot of what we do
-today will look like some form of the equation:
+today in Ruby will look like some form of the equation:
 
  > **Noun** + **Verb** = **Data**
+ > Class.method # Class (Noun) method (Verb)
+ > Taco.all # returned all Taco data! 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮
 
 With the help of Active Record, we can begin to write programs that follow this
 simple pattern to manipulate data.
 
-### Convention Over configuration (ST-WG - 10 / 35)
+### Convention Over configuration (10 / 35)
 
-Before we get started with code, I want to highlight a reoccurring theme with Active Record and Rails in general. You'll often here us say Convention over Configuration.
+Before we get started with code, let's highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
 
 <details>
 <summary>**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
 <br>
 
 ```
-Basically Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers agree on best practices, and therefore allows us to spend less time trying to configure, when there all ready is an accepted way to do things. Some of the common ones we will encounter are naming conventions such as: plural vs single, capital or lower, camel or snake.
+Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
+
+Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in Active Record, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 ```
 </details>
 
+##### If you don't follow the conventions, you're going to have a bad time.
 
-**BOARD:** Throughout this lesson, I will write on the board Active Record's conventions so we can list them as we go.
+![pizza'd when should have french-fried](http://i62.tinypic.com/2vt47dc.jpg)
 
-In a nutshell, if you don't follow the conventions, you're going to have a bad time.
+Obeying the naming conventions in Active Record saves you a good deal of headaches.
 
-Alright! Let's get started with some code!
+##### Alright! Let's get started with some code!
 
-### Setup SQL - Tunr (You Do - 10 / 45)
+### You Do: Setup SQL - Tunr (10 / 45)
 
 > [Tunr Deployed link](https://wdi-dc-tunr.herokuapp.com/artists)
 
-Make sure to review our domain model for tunr
+Make sure to review our domain model for tunr.
 
-![Tunr Erd](tunr-erd.png)
+![Tunr ERD](tunr-erd.png)
 
 We want to be able to do CRUD for these models with Active Record. We'll be going into greater detail about how we are going to use Active Record as an interface between our server and our database, but to start, the first thing that we want to do is create/setup a database.
 
@@ -162,8 +183,8 @@ In the `Gemfile`:
 ```ruby
 source 'https://rubygems.org'
 
-gem "pg"  # this gem allows ruby to talk to postgres
-gem "activerecord"  # this gem provides a connection between your ruby classes to relational database tables
+gem "pg"  # this gem allows Ruby to talk to postgres
+gem "activerecord"  # this gem provides a connection between your Ruby classes to relational database tables
 gem "pry"  # this gem allows access to REPL
 ```
 
@@ -179,7 +200,7 @@ class Artist < ActiveRecord::Base
 end
 ```
 
-> In this ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the ruby `Artist` class to the `artists` table in postgres.
+> In this Ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the Ruby `Artist` class to the `artists` table in postgres.
 
 #### Connecting to Postgres
 
@@ -230,9 +251,7 @@ $ ruby app.rb
 
 When we run this app, we can see that it drops us into pry. Let's write some code in pry to update our database... **IN REALTIME!!!**
 
-**Board:** I want to come up with an ongoing list of *class* methods vs *instance* methods that we can add to as we use them
-
-Let's create an instance of the `Artist` object on the ruby side:
+We'll create an instance of the `Artist` object on the Ruby side:
 
 > **Note** the syntax for creating a new instance.
 
@@ -265,7 +284,7 @@ INSERT INTO artists (name, nationality) VALUES ('Elvis Presley', 'American');
 <br>
 **(ST-WG)** Why is there a distinction between when it's saved in one command versus two?
 
-One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model are now `attr_accessor`'s as well. So we can do things like:
+One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model have `attr_accessor`'s as well. So we can do things like:
 
 ```ruby
 kanye.name
@@ -276,7 +295,7 @@ kanye.save
 # saves the model to the database
 ```
 
-> **Note:** Should be noted that when we set the attribute using a setter, it doesn't automatically save to the database, its not until we call `.save` on the object that it saves to the database
+> **Note:** Should be noted that when we set the attribute using a setter, it doesn't automatically save to the database, it's not until we call `.save` on the object that it saves to the database
 
 To get all of the songs we use `.all`:
 
@@ -334,9 +353,13 @@ kanye.destroy
 
 > This is exciting stuff by the way, imagine, while we do these things, that our artists model is instead a post on Facebook, or a comment on Facebook. So the next time you comment on someone's Facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
-### Methods - Tunr (You Do (In Pry!) - 15 / 90)
+### You Do: Methods - Tunr ( 15 / 90)
 
-[Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-artist-model)
+We will use `binding.pry` in your ruby app to test out ActiveRecord class and instance methods.
+
+> Don't forget to require 'pry' when you want to use binding.pry in your program.
+
+[Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-model-associations)
 
 ## Associations
 
@@ -348,7 +371,7 @@ kanye.destroy
 <br>
 
 ```
-We use SQL because it is a relational database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
+We use SQL because it is a ***relational*** database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
 ```
 
 </details>
@@ -365,9 +388,9 @@ And every Post belongs to a certain user.
 
 > Note the plurality of the nouns used in these two sentences
 
-When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. IE. If we were on Adrian's Facebook page, it wouldn't make sense for us to query EVERY post in facebook and then do `.where(facebook_user: "Adrian")` That would get really expensive. Instead we can do something like, `adrian.posts` and then BAM, we got all of adrian's posts.
+When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. If we were on Adrian's  Facebook page, we'd see all his posts. These are coming from some database. For that database, it wouldn't make sense for it to query EVERY post in Facebook and then check if going through every Facebook post ever and seeing if each post's user was the user whose page you have open.
 
-> Note that this is just speaking at a high level and not modeling the exact syntax, however it's incredibly close to how the code actually would look if it were modeled in AR.
+The fact that a bunch of posts were associated with Adrian's account, means that the entire database doesn't have to be queried. The database only has to pull information **related** to one account. **Relating** the 'categories' of things that go in the database is just a way of **structuring** or **organizing** the data in such a way that it is very useful to a program.
 
 Let's see what some of this stuff looks like in code. We're going to be adding an artist model to our program.
 
@@ -424,7 +447,7 @@ We also need to include the `models/song.rb` file into our `app.rb` so in `app.r
 require_relative "models/song"
 ```
 
-### Updating Class Definitions - Tunr (You Do - 5 / 115)
+### You Do: Updating Class Definitions - Tunr (5 / 115)
 
 [Part 1.2 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-12---create-your-song-model--setup-associations)
 
@@ -472,7 +495,7 @@ beatles.songs = [Song.first, Song.last]
 ```
 > note that when songs is being used as a setter method above, it actually changes the artist_id column for those songs to match The Beatles' primary ID. Any song that previously was assigned to The Beatles and not reassigned in the setter will now have an artist_id of nil
 
-Alternatively if I wanted to get a song's artist I could write this code:
+Alternatively if wewanted to get a song's artist wecould write this code:
 
 ```ruby
 loud_pipes = Song.find_by(title: "Loud Pipes")
@@ -493,7 +516,7 @@ beatles.songs.create(title: "Hey Jude", album: "Beatles Chillout (Vol. 1)")
 ```
 > **Note** that we did not pass in an artist id above. Active Record is smart and does that for us.
 
-### Association Helper Methods - Tunr (You Do - 10 / 135)
+### You Do: Association Helper Methods - Tunr (10 / 135)
 
 [Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
 
@@ -502,7 +525,7 @@ Seeding a database is not all that different from the things we've been doing to
 
 We want some sort of data in our database so that we can test our applications. Let's create a seed file in the terminal: `$ touch db/seeds.rb`
 
-In our `db/seeds.rb` file let's put the following:
+In our `db/seeds.rb` file, let's put the following code:
 
 ```ruby
 require "bundler/setup" # require all the gems we'll be using for this app from the Gemfile. Obviates the need for `bundle exec`
