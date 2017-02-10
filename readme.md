@@ -202,7 +202,7 @@ gem "pry"  # this gem allows access to REPL
 
 #### Defining our Models
 
-In the `models/artist.rb` file, we need to define our `artist` model:
+In the `models/artist.rb` file, we define our `artist` model:
 
 ```ruby
 class Artist < ActiveRecord::Base
@@ -369,7 +369,7 @@ We will use `binding.pry` in your ruby app to test out ActiveRecord class and in
 
 > Don't forget to require 'pry' when you want to use binding.pry in your program.
 
-[Part 1.3 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-model-associations)
+[Part 1.1 - Use Your Artist Model](https://github.com/ga-wdi-exercises/tunr-active-record#part-11---use-your-artist-model)
 
 ## Associations
 
@@ -528,7 +528,7 @@ beatles.songs.create(title: "Hey Jude", album: "Beatles Chillout (Vol. 1)")
 
 ### You Do: Association Helper Methods - Tunr (10 / 135)
 
-[Part 1.5 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-15---use-your-model-associations)
+[Part 1.3 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-model-associations)
 
 ### Seeding a Database - Tunr (I Do - 10 / 145)
 Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
