@@ -67,7 +67,7 @@ It just so happens you will be learning one of the best ORM's on the market. It 
 
 ## Active Record
 
-Active Record is a library that allows us to translate database records into objects that we can use in our Ruby applications. 
+Active Record is a library that allows us to translate database records into objects that we can use in our Ruby applications.
 
 In order to use Active Record in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
 
@@ -85,9 +85,9 @@ and their relationships in an application's data.
 This method is useful for deciding data what needs to be persisted.
 ```
 
-</details>
+</details><br>
 
-<br>
+
 When we we data model, we tend to be talking about the **Nouns** in our
 application. These are the names of the *tables* in our database and the names
 of our Ruby *classes*.
@@ -147,6 +147,16 @@ $ psql -d tunr_db < db/schema.sql
 $ psql -d tunr_db < db/seeds.sql
 $ atom .
 ```
+
+> If you get an error message like this one:
+> ```
+An error occurred while installing json (1.8.3), and Bundler cannot
+continue.
+Make sure that `gem install json -v '1.8.3'` succeeds before bundling.
+```
+
+> Run this command:
+`$ bundle update`
 
 You'll know you did this right if:
 
