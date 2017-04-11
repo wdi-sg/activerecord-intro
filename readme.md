@@ -322,13 +322,13 @@ kanye.save
 
 > **Note:** Should be noted that when we set the attribute using a setter, it doesn't automatically save to the database, it's not until we call `.save` on the object that it saves to the database
 
-To get all of the songs we use `.all`:
+To get all of the artists we use `.all`:
 
 ```ruby
 Artist.all
 ```
 
-We can also find a song by its ID using `.find`:
+We can also find an artist by its ID using `.find`:
 
 ```ruby
 Artist.find(1)
@@ -343,7 +343,7 @@ SELECT * FROM artists WHERE id = 1 LIMIT 1;
 </details>
 
 <br>
-Additionally we can also find a song by an attribute using `.find_by`:
+Additionally we can also find an artist by an attribute using `.find_by`:
 
 ```ruby
 Artist.find_by(name: "Elvis Presley")
@@ -351,7 +351,7 @@ Artist.find_by(name: "Elvis Presley")
 
 > Note that find_by only returns the first object that meets the requirements of the arguments
 
-If you want all songs that meet a certain query then we use `.where`:
+If you want all artists that meet a certain query then we use `.where`:
 
 ```ruby
 Artist.where(nationality: "American")
@@ -518,7 +518,7 @@ beatles.songs = [Song.first, Song.last]
 ```
 > note that when songs is being used as a setter method above, it actually changes the artist_id column for those songs to match The Beatles' primary ID. Any song that previously was assigned to The Beatles and not reassigned in the setter will now have an artist_id of nil
 
-Alternatively if wewanted to get a song's artist wecould write this code:
+Alternatively if we wanted to get a song's artist we could write this code:
 
 ```ruby
 loud_pipes = Song.find_by(title: "Loud Pipes")
