@@ -28,7 +28,7 @@ We now have a way to persist data in a database, although it's reasonable to fee
 
  Being limited to writing SQL queries through the command-line isn't ideal for the Ruby programs we are aiming to write. We need some way or tool to interact with the database in the context of our Ruby applications.
 
-It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
+It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
 
 
 
@@ -43,9 +43,9 @@ For the next 5 minutes, pair up and research what ORM's are.
 
 Try to answer these questions:
 
-0. What is the Active record pattern in a nutshell?
-1. At a high level, what are ORM's and how might they be useful?
-2. What is the importance of interfacing the server with the database?
+1. What is the Active Record pattern in a nutshell?
+2. At a high level, what are ORM's and how might they be useful?
+3. What is the importance of interfacing the server with the database?
 
 ## ORM's & Active Record (10 / 25)
 
@@ -79,16 +79,12 @@ Programmers are constantly modeling domains, real world, fictional, abstract, ma
 
 <summary>What is Domain modeling and why do we do it?</summary>
 
-```
-Domain modeling is the act of describing entities
-and their relationships in an application's data.
-This method is useful for deciding data what needs to be persisted.
-```
+> Domain modeling is the act of describing entities and their relationships in an application's data. This method is useful for deciding data what needs to be persisted.
 
 </details><br>
 
 
-When we we data model, we tend to be talking about the **Nouns** in our
+When we data model, we tend to be talking about the **Nouns** in our
 application. These are the names of the *tables* in our database and the names
 of our Ruby *classes*.
 
@@ -96,37 +92,42 @@ Likewise when we write queries, we use **Verbs** to describe the specific data
 we want.
 
 Essentially, in order to store and retrieve information, a lot of what we do
-today in Ruby will look like some form of the equation:
+today in Ruby will look like some form of the equation
 
- > **Noun** + **Verb** = **Data**
- > Class.method # Class (Noun) method (Verb)
- > Taco.all # returned all Taco data! 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮
+
+
+> **Noun** + **Verb** = **Data**
+>
+> Class.method # Class (Noun) method (Verb)
+>
+> Taco.all # returned all Taco data!
+>
+> 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮
+
 
 With the help of Active Record, we can begin to write programs that follow this
 simple pattern to manipulate data.
+
 
 ### Convention Over configuration (10 / 35)
 
 Before we get started with code, let's highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
 
 <details>
-<summary>**Question:**  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
+<summary><strong>Question:</strong>  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
 <br>
 
-```
-Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
+> Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
+>
+> Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in Active Record, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 
-Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in Active Record, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
-```
 </details>
 
-##### If you don't follow the conventions, you're going to have a bad time.
-
-![pizza'd when should have french-fried](http://i62.tinypic.com/2vt47dc.jpg)
+#### If you don't follow the conventions, you're going to have a bad time.
 
 Obeying the naming conventions in Active Record saves you a good deal of headaches.
 
-##### Alright! Let's get started with some code!
+#### Alright! Let's get started with some code!
 
 ### You Do: Setup SQL - Tunr (10 / 45)
 
@@ -142,30 +143,43 @@ We want to be able to do CRUD for these models with Active Record. We'll be goin
 $ git clone git@github.com:ga-wdi-exercises/tunr-active-record.git
 $ cd tunr-active-record
 $ bundle install
+```
+
+<details>
+<summary>Did you get an error from <code>bundle install</code>?</summary>
+If you get an error message like this one:
+
+```
+An error occurred while installing json (1.8.3), and Bundler cannot continue.
+Make sure that `gem install json -v '1.8.3'` succeeds before bundling.
+```
+
+Then run this command: `$ bundle update`
+</details>
+
+Continue with the following `bash` commands:
+
+```bash
 $ createdb tunr_db
 $ psql -d tunr_db < db/schema.sql
 $ psql -d tunr_db < db/seeds.sql
 $ atom .
 ```
 
-> During `bundle install`, if you get an error message like this one:
-> ```
-An error occurred while installing json (1.8.3), and Bundler cannot
-continue.
-Make sure that `gem install json -v '1.8.3'` succeeds before bundling.
-```
 
-> Run this command:
-`$ bundle update`
+Check you did everything correctly.
 
-You'll know you did this right if:
+- Run your program(`$ ruby app.rb`)
+- When you see the `pry` REPL, run this ruby code: `Artist.first`
 
-Run your program(`$ ruby app.rb`) and then when you enter `pry` run this line of code:
-
-you should get something like this(it won't be the same letters and numbers)
+Your output should be something like this (it won't be the same letters and numbers next to `#<Artist:`)
 ```bash
-pry(main)> Artist.all
-=> #<Artist::ActiveRecord_Relation:0x3fc4911af384>
+pry(main)> pry(main)> Artist.first
+=> #<Artist:0x007ff851821bc0
+ id: 1,
+ name: "Weird Al Yankovich",
+ photo_url: "http://i.huffpost.com/gen/1952378/images/o-WEIRD-AL-facebook.jpg",
+ nationality: "American">
 ```
 
 **STOP**
@@ -175,11 +189,11 @@ pry(main)> Artist.all
 Let's do a quick walkthrough of our code base so far...
 
 > The `app.rb` file is our main application file. This is where a lot of the main program logic will live.
-
+>
 > The `Gemfile` contains all the dependencies for our program.
-
+>
 > The `models/artist.rb` file will contain the class definition for the Artist class that will represent the artists table in SQL
-
+>
 > **Note**: by convention we always name our model file names singular
 
 #### The `Gemfile` - an aside
@@ -210,7 +224,7 @@ class Artist < ActiveRecord::Base
 end
 ```
 
-> In this Ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the Ruby `Artist` class to the `artists` table in postgres.
+> In this Ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the Ruby `Artist` class to the `artists` table in Postgres.
 
 #### Connecting to Postgres
 
@@ -284,14 +298,15 @@ elvis = Artist.create(name: "Elvis Presley", nationality: "American")
 <!-- SQL for create  -->
 <details>
 <summary>This would roughly translate to `SQL` code</summary>
->
-```sql
+
+<code>
 INSERT INTO artists (name, nationality) VALUES ('Elvis Presley', 'American');
-```
+</code>
 
 </details>
 
 <br>
+
 **(ST-WG)** Why is there a distinction between when it's saved in one command versus two?
 
 One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model have `attr_accessor`'s as well. So we can do things like:
@@ -307,13 +322,13 @@ kanye.save
 
 > **Note:** Should be noted that when we set the attribute using a setter, it doesn't automatically save to the database, it's not until we call `.save` on the object that it saves to the database
 
-To get all of the songs we use `.all`:
+To get all of the artists we use `.all`:
 
 ```ruby
 Artist.all
 ```
 
-We can also find a song by its ID using `.find`:
+We can also find an artist by its ID using `.find`:
 
 ```ruby
 Artist.find(1)
@@ -322,15 +337,13 @@ Artist.find(1)
 <!-- SQL for find  -->
 <details>
 <summary>This would roughly translate to `SQL` code</summary>
->
-```sql
+<code>
 SELECT * FROM artists WHERE id = 1 LIMIT 1;
-```
-
+</code>
 </details>
 
 <br>
-Additionally we can also find a song by an attribute using `.find_by`:
+Additionally we can also find an artist by an attribute using `.find_by`:
 
 ```ruby
 Artist.find_by(name: "Elvis Presley")
@@ -338,7 +351,7 @@ Artist.find_by(name: "Elvis Presley")
 
 > Note that find_by only returns the first object that meets the requirements of the arguments
 
-If you want all songs that meet a certain query then we use `.where`:
+If you want all artists that meet a certain query then we use `.where`:
 
 ```ruby
 Artist.where(nationality: "American")
@@ -376,13 +389,13 @@ We will use `binding.pry` in your ruby app to test out ActiveRecord class and in
 ### Reframing (10 / 100)
 
 <details>
-<summary>**Q**. We have a lot of choice when it comes to databases, why are we using SQL?</summary>
+<summary><strong>Q</strong>. We have a lot of choice when it comes to databases, why are we using SQL?</summary>
 
 <br>
 
-```
-We use SQL because it is a ***relational*** database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
-```
+
+> We use SQL because it is a <strong>relational</strong> database. But what does that really mean? Basically we want the ability to associate models in our domain. That can come in a variety of ways in a relational database, but at the heart of it is essentially this: One model has many other instances of another model. And that other model belongs to the original.
+
 
 </details>
 
@@ -461,8 +474,6 @@ require_relative "models/song"
 
 [Part 1.2 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-12---create-your-song-model--setup-associations)
 
-[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
-
 ### Association Helper Methods - Tunr (I Do - 10 / 125)
 
 So we added some code, but we can't yet see the functionality it gives us.
@@ -505,7 +516,7 @@ beatles.songs = [Song.first, Song.last]
 ```
 > note that when songs is being used as a setter method above, it actually changes the artist_id column for those songs to match The Beatles' primary ID. Any song that previously was assigned to The Beatles and not reassigned in the setter will now have an artist_id of nil
 
-Alternatively if wewanted to get a song's artist wecould write this code:
+Alternatively if we wanted to get a song's artist we could write this code:
 
 ```ruby
 loud_pipes = Song.find_by(title: "Loud Pipes")
@@ -588,6 +599,7 @@ Review Learning Objectives
 ### Resources
 - [Active Record Basics](http://guides.rubyonrails.org/active_record_basics.html)
 - [Active Record Query Interface](http://guides.rubyonrails.org/active_record_querying.html)
+- [Tunr - Solution Code (zip)](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
 ### Appendix
 
