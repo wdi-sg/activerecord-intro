@@ -28,7 +28,7 @@ We now have a way to persist data in a database, although it's reasonable to fee
 
  Being limited to writing SQL queries through the command-line isn't ideal for the Ruby programs we are aiming to write. We need some way or tool to interact with the database in the context of our Ruby applications.
 
-It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
+It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
 
 
 
@@ -43,7 +43,7 @@ For the next 5 minutes, pair up and research what ORM's are.
 
 Try to answer these questions:
 
-1. What is the Active record pattern in a nutshell?
+1. What is the Active Record pattern in a nutshell?
 2. At a high level, what are ORM's and how might they be useful?
 3. What is the importance of interfacing the server with the database?
 
@@ -123,11 +123,11 @@ Before we get started with code, let's highlight a reoccurring theme with Active
 
 </details>
 
-##### If you don't follow the conventions, you're going to have a bad time.
+#### If you don't follow the conventions, you're going to have a bad time.
 
 Obeying the naming conventions in Active Record saves you a good deal of headaches.
 
-##### Alright! Let's get started with some code!
+#### Alright! Let's get started with some code!
 
 ### You Do: Setup SQL - Tunr (10 / 45)
 
@@ -146,7 +146,7 @@ $ bundle install
 ```
 
 <details>
-<summary>Did you get an error from `bundle install`?</summary>
+<summary>Did you get an error from <code>bundle install</code>?</summary>
 If you get an error message like this one:
 
 ```
@@ -224,7 +224,7 @@ class Artist < ActiveRecord::Base
 end
 ```
 
-> In this Ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the Ruby `Artist` class to the `artists` table in postgres.
+> In this Ruby file, we create a class of Artist that inherits from `ActiveRecord::Base`. Essentially, when we inherit from `ActiveRecord::Base`, it gives this class a whole bunch of functionality that maps the Ruby `Artist` class to the `artists` table in Postgres.
 
 #### Connecting to Postgres
 
@@ -474,8 +474,6 @@ require_relative "models/song"
 
 [Part 1.2 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-12---create-your-song-model--setup-associations)
 
-[solution code](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
-
 ### Association Helper Methods - Tunr (I Do - 10 / 125)
 
 So we added some code, but we can't yet see the functionality it gives us.
@@ -601,6 +599,7 @@ Review Learning Objectives
 ### Resources
 - [Active Record Basics](http://guides.rubyonrails.org/active_record_basics.html)
 - [Active Record Query Interface](http://guides.rubyonrails.org/active_record_querying.html)
+- [Tunr - Solution Code (zip)](https://github.com/ga-wdi-exercises/tunr-active-record/archive/v1.2.zip)
 
 ### Appendix
 
