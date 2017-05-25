@@ -140,7 +140,7 @@ Make sure to review our domain model for tunr.
 We want to be able to do CRUD for these models with Active Record. We'll be going into greater detail about how we are going to use Active Record as an interface between our server and our database, but to start, the first thing that we want to do is create/setup a database.
 
 ```bash
-$ git clone git@github.com:ga-wdi-exercises/tunr-active-record.git
+$ git clone https://github.com/ga-wdi-exercises/tunr-active-record.git
 $ cd tunr-active-record
 $ bundle install
 ```
@@ -496,7 +496,7 @@ Song.create([
     {title: "Neckbrace", album: "LP4", artist: ratatat },
     {title: "Twist and Shout", album: "Please Please Me", artist: beatles},
     {title: "Hello, Goodbye", album: "Magical Mystery Tour", artist: beatles},
-    {title: "Revolution", album: "The Beatles", artist: beatles},
+    {title: "Revolution", album: "The Beatles", artist: beatles}
   ])
 ```
 
@@ -526,7 +526,7 @@ loud_pipes.artist
 beatles = Artist.last
 loud_pipes.artist = beatles
 loud_pipes.save
-# this .artist being used as a setter method, and now loud_pipes's artist is Adrian
+# this .artist being used as a setter method, and now loud_pipes's artist is the beatles.
 ```
 
 We can also create new songs under a certain artist by doing the following:
