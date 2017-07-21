@@ -41,7 +41,7 @@ For the next 5 minutes, pair up and research what ORM's are.
 
 [AR Read 1.1 - 1.3](http://guides.rubyonrails.org/active_record_basics.html)
 
-Try to answer these questions as a comment under [this issue](https://github.com/ga-wdi-lessons/activerecord-intro/issues/9):
+Try to answer these questions as a comment under [this issue](https://github.com/ga-wdi-lessons/activerecord-intro/issues/10):
 
 1. What is the Active Record pattern in a nutshell?
 2. At a high level, what are ORM's and how might they be useful?
