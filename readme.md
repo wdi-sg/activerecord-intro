@@ -53,6 +53,8 @@ Try to answer these questions as a comment under [this issue](https://github.com
 
 We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, it's an object represented on our server now. That's what ORM's do.
 
+![ORM-ActiveRecord](./orm.jpg?raw=true "ORM")
+
 More concretely ORM's:
 - *'Map'* (translate) objects to rows in our DB (and vice versa)
 - **Conventions**:
