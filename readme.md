@@ -9,8 +9,8 @@
 
 ## Learning Objectives
 
-- Define the term "ORM" and why we use it over a database language.
-- Explain what Active Record is and what problems it solves.
+- Define the term "ORM" and why we use it over a database language
+- Explain what Active Record is and what problems it solves
 - Explain "convention over configuration" and how it relates to Active Record
 - Define a class that inherits from Active Record
 - Utilize Active Record to perform CRUD actions on a database
