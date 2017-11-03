@@ -124,7 +124,7 @@ Obeying the naming conventions in Active Record saves you a good deal of headach
 
 #### Alright! Let's get started with some code!
 
-### You Do: Setup SQL - Tunr (10 / 45)
+### We Do: Setup SQL - Tunr (10 / 45)
 
 > [Tunr Deployed link](https://wdi-dc-tunr.herokuapp.com/artists)
 
