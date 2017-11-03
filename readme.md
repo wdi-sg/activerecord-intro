@@ -9,49 +9,42 @@
 
 ## Learning Objectives
 
-- Define the term `ORM` and why we use it over a database language.
+- Define the term "ORM" and why we use it over a database language.
 - Explain what Active Record is and what problems it solves.
-- Explain convention over configuration and how it relates to Active Record
-- Define a class that inherits from AR
-- Utilize AR to perform CRUD actions on a database
-- Differentiate between class and instance methods in Active Record objects/classes
-- Utilize `has_many`, `belongs_to` to establish associations/relationships with AR
-- Seed a database using AR
+- Explain "convention over configuration" and how it relates to Active Record
+- Define a class that inherits from Active Record
+- Utilize Active Record to perform CRUD actions on a database
+- Differentiate between class and instance methods in Active Record classes/objects
+- Utilize `has_many` and `belongs_to` to establish associations/relationships with Active Record
+- Seed a database using Active Record
 
 ## Framing (5 / 5)
 
-So far, we've learned principles of object-oriented programming and how to get data to persist in a database using SQL.
+So far, we've learned principles of object-oriented programming and how to get data to persist in a database using SQL. However, we now need some way to connect the two. We need to be able to retrieve data from a SQL database and store it in Ruby objects that we can use in our application. While we could use the `pg` gem to write and execute SQL commands in our Ruby code, this process is onerous and can result in a lot of repetitive code. We would have to write very long SQL statements to do even simple CRUD actions.
 
-Object-oriented principles allow us to represent and describe real-world things in our programs as data.
-
-We now have a way to persist data in a database, although it's reasonable to feel that databases are a cryptic storage space on our local machines. We have to make super long SQL statements to do CRUD.
-
- Being limited to writing SQL queries through the command-line isn't ideal for the Ruby programs we are aiming to write. We need some way or tool to interact with the database in the context of our Ruby applications.
-
-It'd be ***really*** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data. Enter ORMs and [The Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
-
-
+It'd be **really** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data to and from a database. Enter **ORMs** and [The Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
 
 ### Information Dive (5 / 10)
 
 For the next 5 minutes, pair up and research what ORM's are.
 
-[ORM - wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
-> Don't spend too much time with this wikipedia article, just glance it over.
+[ORM - Wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
+> Only read through the summary
 
-[AR Read 1.1 - 1.3](http://guides.rubyonrails.org/active_record_basics.html)
+[Active Record Basics - Rails Guides](http://guides.rubyonrails.org/active_record_basics.html)
+> Read through sections 1.1 to 1.3
 
-Try to answer these questions as a comment under [this issue](https://github.com/ga-wdi-lessons/activerecord-intro/issues/10):
+As you read, think about your answer to the following:
 
+1. At a high level, what are ORMs and how might they be useful?
 1. What is the Active Record pattern in a nutshell?
-2. At a high level, what are ORM's and how might they be useful?
-3. What is the importance of interfacing the server with the database?
+1. What is the importance of interfacing the server with the database?
 
 ## ORM's & Active Record (10 / 25)
 
-- *Official* wikipedia definition. A programming technique for converting data between incompatible type systems in object-oriented programming languages.
+- Object Relational Mapping: A programming technique for converting data between incompatible type systems in object-oriented programming languages - from [Wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
 
-We need a way to encapsulate our databases into objects so that we can talk to our server. ORM's serve that purpose. Remember those tables we created in SQL? Well, it's an object represented on our server now. That's what ORM's do.
+We need a way to encapsulate the data from our databases into objects so that we can use them in our server applications. ORM's serve that purpose. Remember those tables we created in SQL? Well, now those rows of data are objects (instances of classes) on our server now. That's what ORM's do.
 
 ![ORM-ActiveRecord](./orm.jpg?raw=true "ORM")
 
@@ -59,17 +52,17 @@ More concretely ORM's:
 - *'Map'* (translate) objects to rows in our DB (and vice versa)
 - **Conventions**:
   - 1 table per Model/Class/Entity
-  - table name is model name pluralized
-  - each column is an attribute for that model
+  - Model names are singular and capitalized, table names are lowercase and plural
+  - each column represents an attribute for that model
 - Table associations are handled using foreign keys
 
-It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax (because Ruby is awesome) the industry has to offer. This ORM is Active Record.
+It just so happens you will be learning one of the best ORM's on the market. It has some of the best documentation and best syntax (because Ruby is awesome). This ORM is Active Record.
 
 > Active Record is the M in MVC - the model - which is the layer of the system responsible for representing business data and logic. Active Record facilitates the creation and use of business objects whose data requires persistent storage to a database. It is an implementation of the Active Record pattern which itself is a description of an Object Relational Mapping system. (from AR docs)
 
 ## Active Record
 
-Active Record is a library that allows us to translate database records into objects that we can use in our Ruby applications.
+Active Record is an ORM (packaged in a Ruby gem) that allows us to translate database records into objects that we can use in our Ruby applications.
 
 In order to use Active Record in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
 
@@ -81,12 +74,12 @@ Programmers are constantly modeling domains, real world, fictional, abstract, ma
 
 <summary>What is Domain modeling and why do we do it?</summary>
 
-> Domain modeling is the act of describing entities and their relationships in an application's data. This method is useful for deciding data what needs to be persisted.
+> Domain modeling is the act of describing entities and their relationships in an application's data. This method is useful for deciding data what needs to be persisted and how it should be organized.
 
 </details><br>
 
 
-When we data model, we tend to be talking about the **Nouns** in our
+When we model data, we tend to be talking about the **Nouns** in our
 application. These are the names of the *tables* in our database and the names
 of our Ruby *classes*.
 
@@ -111,15 +104,15 @@ With the help of Active Record, we can begin to write programs that follow this
 simple pattern to manipulate data.
 
 
-### Convention Over configuration (10 / 35)
+### Convention Over Configuration (10 / 35)
 
-Before we get started with code, let's highlight a reoccurring theme with Active Record and Rails in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
+Before we get started with code, let's highlight a reoccurring theme with Active Record, Rails, and frameworks in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
 
 <details>
 <summary><strong>Question:</strong>  Without getting into the specifics of AR, what do you think we mean by convention over configuration?</summary>
 <br>
 
-> Active Record and Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
+> Active Record, Rails, and other frameworks have a whole bunch of conventions that they follow so that you do not have to mess with different configuration details later. These conventions exist because developers arrive at a consensus on best practices. These road-tested conventions allow us to spend less time trying to configure when there already is an accepted way to do things. Thanks to the programmers who have come before us, we inherit a well-designed, default configuration that spares us from many headaches that we'd encounter if we were building things from scratch (yikes!).
 >
 > Some of the common ones we will encounter are naming conventions such as: plural vs single, Capitalized/ALL_CAPS_SNAKE_CASE/lowercase, camelCase/kabob-case/snake_case. Obeying the naming conventions in Active Record, particularly regarding what is singular vs. what is plural, saves you a good deal of headaches.
 
@@ -200,9 +193,7 @@ Let's do a quick walkthrough of our code base so far...
 
 #### The `Gemfile` - an aside
 
-A `Gemfile` is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration of apps. TLDR: Take someone's code, use it in your program.
-
-We stand on the shoulders of giants. Oh there's code for that? yoink.
+A `Gemfile` is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration on apps. TLDR: Take someone's code, use it in your program.
 
 In the `Gemfile`:
 
@@ -309,7 +300,7 @@ INSERT INTO artists (name, nationality) VALUES ('Elvis Presley', 'American');
 
 <br>
 
-**(ST-WG)** Why is there a distinction between when it's saved in one command versus two?
+**Question:** Why is there a distinction between when it's saved in one command versus two?
 
 One really handy feature we get from an Active Record inherited class is that all of the attribute columns of our model have `attr_accessor`'s as well. So we can do things like:
 
@@ -413,7 +404,7 @@ And every Post belongs to a certain user.
 
 > Note the plurality of the nouns used in these two sentences
 
-When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. If we were on Adrian's  Facebook page, we'd see all his posts. These are coming from some database. For that database, it wouldn't make sense for it to query EVERY post in Facebook and then check if going through every Facebook post ever and seeing if each post's user was the user whose page you have open.
+When we start organizing our objects in this manner and program these associations, it becomes much easier to query our database for what we need. If we were on a user's Facebook page, we'd see all of their posts. These are coming from some database. For that database, it wouldn't make sense for it to query EVERY post in Facebook and then check if going through every Facebook post ever and seeing if each post's user was the user whose page you have open.
 
 The fact that a bunch of posts were associated with Adrian's account, means that the entire database doesn't have to be queried. The database only has to pull information **related** to one account. **Relating** the 'categories' of things that go in the database is just a way of **structuring** or **organizing** the data in such a way that it is very useful to a program.
 
@@ -446,6 +437,11 @@ CREATE TABLE songs(
 ```
 
 Make note of the foreign key in `songs`
+
+> Note: If we wanted to ensure **referential integrity** at the database layer, we could optionally add a [foreign key constraint](http://www.postgresqltutorial.com/postgresql-foreign-key/) to the `artist_id` column that defines what table and column the foreign key refers to:  
+```sql
+artist_id INT REFERENCES artists(id)
+```
 
 ### Updating Class Definitions - Tunr (I Do - 5 / 110)
 
@@ -502,7 +498,7 @@ Song.create([
   ])
 ```
 
-> ST-WG Why do we need to use `.destroy_all`?
+> **Question:** Why do we need to use `.destroy_all`?
 
 Now that we have this association, we can now easily query the database for the relevant records.
 
