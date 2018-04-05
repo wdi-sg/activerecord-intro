@@ -18,13 +18,13 @@
 - Utilize `has_many` and `belongs_to` to establish associations/relationships with Active Record
 - Seed a database using Active Record
 
-## Framing (5 / 5)
+## Framing (5 min / 0:05)
 
 So far, we've learned principles of object-oriented programming and how to get data to persist in a database using SQL. However, we now need some way to connect the two. We need to be able to retrieve data from a SQL database and store it in Ruby objects that we can use in our application. While we could use the `pg` gem to write and execute SQL commands in our Ruby code, this process is onerous and can result in a lot of repetitive code. We would have to write very long SQL statements to do even simple CRUD actions.
 
 It'd be **really** nice if a bunch of genius programmers had already worked out some kind of way to interface between the database and our servers/applications in order to streamline the process of reading and writing data to and from a database. Enter **ORMs** and [The Active Record pattern](https://en.wikipedia.org/wiki/Active_record_pattern).
 
-### Information Dive (5 / 10)
+### Information Dive (5 min / 0:10)
 
 For the next 5 minutes, pair up and research what ORM's are.
 
@@ -40,7 +40,7 @@ As you read, think about your answer to the following:
 1. What is the Active Record pattern in a nutshell?
 1. What is the importance of interfacing the server with the database?
 
-## ORM's & Active Record (10 / 25)
+## ORM's & Active Record (10 min / 0:20)
 
 - Object Relational Mapping: A programming technique for converting data between incompatible type systems in object-oriented programming languages - from [Wikipedia](https://en.wikipedia.org/wiki/Object-relational_mapping)
 
@@ -66,29 +66,25 @@ Active Record is an ORM (packaged in a Ruby gem) that allows us to translate dat
 
 In order to use Active Record in our Ruby code to manipulate data in a database, we need to be able to talk about the **models** of our data.
 
-But before we even do that, we have to decide on what our data is! How much of the real world are we going to attempt to represent in our programs? What data do our programs need to fulfill their purpose?  To be able to think about how to model our data, we need a process where we can precisely identify what we need represented in our programs as data.
+But before we even do that, we have to decide on what our data is! How much of the real world are we going to attempt to represent in our programs? What data do our programs need to fulfill their purpose? To be able to think about how to model our data, we need a process where we can precisely identify what we need represented in our programs as data.
 
 Programmers are constantly modeling domains, real world, fictional, abstract, mathematical or otherwise.
 
+<br>
 <details>
 
 <summary>What is Domain modeling and why do we do it?</summary>
 
 > Domain modeling is the act of describing entities and their relationships in an application's data. This method is useful for deciding data what needs to be persisted and how it should be organized.
 
-</details><br>
+</details>
+<br>
 
+When we model data, we tend to be talking about the **Nouns** in our application. These are the names of the *tables* in our database and the names of our Ruby *classes*.
 
-When we model data, we tend to be talking about the **Nouns** in our
-application. These are the names of the *tables* in our database and the names
-of our Ruby *classes*.
+Likewise when we write queries, we use **Verbs** to describe the specific data we want.
 
-Likewise when we write queries, we use **Verbs** to describe the specific data
-we want.
-
-Essentially, in order to store and retrieve information, a lot of what we do
-today in Ruby will look like some form of the equation
-
+Essentially, in order to store and retrieve information, a lot of what we do today in Ruby will look like some form of the equation:
 
 
 > **Noun** + **Verb** = **Data**
@@ -100,11 +96,10 @@ today in Ruby will look like some form of the equation
 > 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮 🌮
 
 
-With the help of Active Record, we can begin to write programs that follow this
-simple pattern to manipulate data.
+With the help of Active Record, we can begin to write programs that follow this simple pattern to manipulate data.
 
 
-### Convention Over Configuration (10 / 35)
+### Convention Over Configuration (10 min / 0:30)
 
 Before we get started with code, let's highlight a reoccurring theme with Active Record, Rails, and frameworks in general. You'll often hear us say, "Convention Over Configuration." Before we discuss the concept as a class, take 30 seconds to think about what that phrase means--why *might* we prefer convention over configuration?
 
@@ -124,7 +119,7 @@ Obeying the naming conventions in Active Record saves you a good deal of headach
 
 #### Alright! Let's get started with some code!
 
-### We Do: Setup SQL - Tunr (10 / 45)
+### We Do: Setup SQL - Tunr (10 min / 0:40)
 
 > [Tunr Deployed link](https://wdi-dc-tunr.herokuapp.com/artists)
 
@@ -161,7 +156,6 @@ $ psql -d tunr_db < db/seeds.sql
 $ atom .
 ```
 
-
 Check you did everything correctly.
 
 - Run your program(`$ ruby app.rb`)
@@ -179,12 +173,11 @@ pry(main)> pry(main)> Artist.first
 
 **STOP**
 
-### Code Review / Walkthrough - Tunr (I Do 10 / 45)
+### We do: Code Review / Walkthrough - Tunr (10 min / 0:50)
 
 Let's do a quick walkthrough of our code base so far...
 
 > The `app.rb` file is our main application file. This is where a lot of the main program logic will live.
->
 > The `Gemfile` contains all the dependencies for our program.
 >
 > The `models/artist.rb` file will contain the class definition for the Artist class that will represent the artists table in SQL
@@ -194,6 +187,8 @@ Let's do a quick walkthrough of our code base so far...
 #### The `Gemfile` - an aside
 
 A `Gemfile` is a file we create which is used for describing gem dependencies for Ruby programs. Allows for easier collaboration on apps. TLDR: Take someone's code, use it in your program.
+
+> Where else have we seen something similar?
 
 In the `Gemfile`:
 
@@ -256,9 +251,9 @@ puts "end of application"
 
 **STOP**
 
-## Break (10 / 60)
+## Break (10 min / 1:00)
 
-### Methods - Tunr (I Do 15 / 75)
+### We do: Methods - Tunr (15 min / 1:15)
 
 Great! We've got everything done that we need to get setup with single model CRUD in our application. Let's run it in the terminal:
 
@@ -369,7 +364,7 @@ kanye.destroy
 
 > This is exciting stuff by the way, imagine, while we do these things, that our artists model is instead a post on Facebook, or a comment on Facebook. So the next time you comment on someone's Facebook page you have an idea now of whats happening on the database layer. Maybe not the whole picture, but you have an idea. We're going to build on that idea in the coming week and half, and thats really exciting.
 
-### You Do: Methods - Tunr ( 15 / 90)
+### You Do: Methods - Tunr (15 min / 1:30)
 
 We will use `binding.pry` in your ruby app to test out ActiveRecord class and instance methods.
 
@@ -379,7 +374,7 @@ We will use `binding.pry` in your ruby app to test out ActiveRecord class and in
 
 ## Associations
 
-### Reframing (10 / 100)
+### Reframing (10 / 1:40)
 
 <details>
 <summary><strong>Q</strong>. We have a lot of choice when it comes to databases, why are we using SQL?</summary>
@@ -410,7 +405,7 @@ The fact that a bunch of posts were associated with Adrian's account, means that
 
 Let's see what some of this stuff looks like in code. We're going to be adding an artist model to our program.
 
-### Associations in Schema - Tunr (I Do - 5 / 105)
+### Associations in Schema (5 / 1:35)
 
 **NOTE:** In this section, we are reviewing our schema and how it reflects associations for our domain. We are NOT updating the schema file.
 
@@ -438,16 +433,15 @@ CREATE TABLE songs(
 
 Make note of the foreign key in `songs`
 
-> Note: If we wanted to ensure **referential integrity** at the database layer, we could optionally add a [foreign key constraint](http://www.postgresqltutorial.com/postgresql-foreign-key/) to the `artist_id` column that defines what table and column the foreign key refers to:  
-```sql
-artist_id INT REFERENCES artists(id)
-```
+A good explanation for why we need to relate these things in ActiveRecord: 
+http://guides.rubyonrails.org/association_basics.html
 
-### Updating Class Definitions - Tunr (I Do - 5 / 110)
+### Updating Class Definitions (5 min / 1:40)
 
 Next we need to update the models to reflect the relationships in our application.
 
 ```ruby
+# models/artist.rb
 class Artist < ActiveRecord::Base
   has_many :songs
 end
@@ -468,11 +462,11 @@ We also need to include the `models/song.rb` file into our `app.rb` so in `app.r
 require_relative "models/song"
 ```
 
-### You Do: Updating Class Definitions - Tunr (5 / 115)
+### You Do: Updating Class Definitions (5 min / 1:45)
 
 [Part 1.2 - Create Your Song Model / Setup Associations](https://github.com/ga-wdi-exercises/tunr-active-record#part-12---create-your-song-model--setup-associations)
 
-### Association Helper Methods - Tunr (I Do - 10 / 125)
+### Association Helper Methods (10 min / 1:55)
 
 So we added some code, but we can't yet see the functionality it gives us.
 
@@ -535,12 +529,14 @@ beatles.songs.create(title: "Hey Jude", album: "Beatles Chillout (Vol. 1)")
 ```
 > **Note** that we did not pass in an artist id above. Active Record is smart and does that for us.
 
-### You Do: Association Helper Methods - Tunr (10 / 135)
+### You Do: Association Helper Methods (10 min / 2:05)
 
 [Part 1.3 - Use Your Model Assocations](https://github.com/ga-wdi-exercises/tunr-active-record#part-13---use-your-model-associations)
 
-### Seeding a Database - Tunr (I Do - 10 / 145)
-Seeding a database is not all that different from the things we've been doing today. What's the purpose of seed data? **(ST-WG)**
+### Seeding a Database with ActiveRecord (10 min / 2:15)
+Seeding a database is not all that different from the things we've been doing today. 
+
+> What's the purpose of seed data? 
 
 We want some sort of data in our database so that we can test our applications. Let's create a seed file in the terminal: `$ touch db/seeds.rb`
 
@@ -587,7 +583,7 @@ Once we get rid of this duplicate CRUD code in `app.rb` we can just run this see
 
 Now when we run our application with `ruby app.rb`, we enter into Pry with all our data loaded.
 
-## Closing (5 / 150)
+## Closing Review (15 min / 2:30)
 
 Who misses writing SQL queries by hand? Exactly. Active Record is extremely powerful and helpful, and allows us to easily interface with the business models for our applications.
 
